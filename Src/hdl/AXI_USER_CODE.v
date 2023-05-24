@@ -49,16 +49,13 @@ module AXI_USER_CODE #(
 )
 
 (
-	//用户逻辑复位
-    input rst,
 
-//写状态相关信号
-    input [C_M_AXI_DATA_WIDTH-1:0]    dataIn,
-    input                             dataInValid,
-    input                             WrEn,
+// 写fifo 超过一次AXIburst突发长度“标志”
+	input 								fifo_over_burst_thread	,
 
-    input [C_M_AXI_ADDR_WIDTH-1:0]  dataInAddr,
-    input                           dataInAddrValid,
+	output 								write_Fifo_RdEn 		, 
+	input [`C_M_AXI_DATA_WIDTH-1 : 0]	dataIn					,           
+	input 								dataInValid      		,
 
 //读状态相关信号
     input                           RdEn,
@@ -183,14 +180,15 @@ module AXI_USER_CODE #(
 		output wire  M_AXI_RREADY
 );
 
-reg [C_M_AXI_ADDR_WIDTH-1 :0 ]  axi_awaddr;
-reg                             axi_awvalid;
+wire [C_M_AXI_ADDR_WIDTH-1 :0 ]  axi_awaddr;
+wire                             axi_awvalid;
 
-reg [C_M_AXI_DATA_WIDTH-1 : 0]  axi_wdata;
-reg                             axi_wlast;
-reg                             axi_wvalid;
-reg                             axi_bready;
-reg [C_M_AXI_DATA_WIDTH-1 : 0]  axi_araddr;
+wire [C_M_AXI_DATA_WIDTH-1 : 0]  axi_wdata;
+wire                             axi_wlast;
+wire                             axi_wvalid;
+wire                             axi_bready;
+
+reg [C_M_AXI_ADDR_WIDTH-1 : 0]  axi_araddr;
 
 reg                             axi_arvalid;
 reg                             axi_rready;
@@ -257,112 +255,55 @@ reg [ C_M_AXI_DATA_WIDTH -1  : 0 ] dataInReg;
 reg          WrEnReg = 0;
 
 
-//写地址锁存
-//写数据锁存
-always@(posedge M_AXI_ACLK)
-begin
-    if(rst)
-        dataInAddrReg <= 0;
-    else if(dataInAddrValid)
-        dataInAddrReg <= dataInAddr;
-    else
-        dataInAddrReg <= dataInAddr;
-end
+//------------------------------------------------------------
+//	Write Address Channel && Write Response (B) Channel
+//------------------------------------------------------------
 
-//写数据锁存
-always@(posedge M_AXI_ACLK)
-begin
-    if(rst)
-        dataInReg <= 0;
-    else if(dataInValid)
-        dataInReg <= dataIn;
-    else
-        dataInReg <= dataInReg;
-end
+wire  start_single_burst_write;
 
-//写使能打拍
-always@(posedge M_AXI_ACLK)
-begin
-    WrEnReg <= WrEn;
-end
+ AXIAddrWriteChannel AXIAddrWriteChannel_Inst(
+    
+    . M_AXI_ACLK                  (M_AXI_ACLK),
+    . M_AXI_ARESETN               (M_AXI_ARESETN),
+    . fifo_over_burst_thread      (fifo_over_burst_thread  ),
 
+    .start_single_burst_write     (start_single_burst_write),
 
-//--------------------
+//Write Response (B) Channel
+    .M_AXI_BVALID                (M_AXI_BVALID	),
+    .axi_bready                  (axi_bready	),
+    .M_AXI_BRESP                 (M_AXI_BRESP	),
+
 //Write Address Channel
-//--------------------
-always @(posedge M_AXI_ACLK)                                   
-begin                                                                                                                                     
-  if (M_AXI_ARESETN == 0)                                           
-    begin                                                            
-      axi_awvalid <= 1'b0;                                           
-    end                                                              
-  // If previously not valid , start next transaction                
-  else if ((WrEn==1'b1)&&(WrEnReg == 1'b0)&&(~axi_awvalid))                 
-    begin                                                            
-      axi_awvalid <= 1'b1;                                           
-    end                                                              
-  /* Once asserted, VALIDs cannot be deasserted, so axi_awvalid      
-  must wait until transaction is accepted */                         
-  else if (M_AXI_AWREADY && axi_awvalid)                             
-    begin                                                            
-      axi_awvalid <= 1'b0;                                           
-    end                                                              
-  else                                                               
-    axi_awvalid <= axi_awvalid;                                      
-end  
+    .M_AXI_AWREADY               (M_AXI_AWREADY),     
+    .axi_awvalid                 (axi_awvalid),
+    .axi_awaddr					 (axi_awaddr)
+);
 
-
-// Address Generate  
-  always @(posedge M_AXI_ACLK)                                         
-  begin                                                                
-    if (M_AXI_ARESETN == 0 )                                            
-      begin                                                            
-        axi_awaddr <= 'b0;                                             
-      end                                                              
-    else if (((WrEn==1'b1)&&(WrEnReg == 1'b0)))                             
-      begin                                                            
-        axi_awaddr <= dataInAddrReg;                   
-      end                                                              
-    else                                                               
-      axi_awaddr <= axi_awaddr;                                        
-    end   
 
 //--------------------
 //Write Data Channel
 //--------------------
-// WVALID logic, similar to the axi_awvalid always block above                      
-  always @(posedge M_AXI_ACLK)                                                      
-  begin                                                                             
-    if (M_AXI_ARESETN == 0 )                                                        
-      begin                                                                         
-        axi_wvalid <= 1'b0;                                                         
-      end                                                                                                        
-    else if ((WrEn==1'b1)&&(WrEnReg == 1'b0))                                
-      begin
-        axi_wdata <= dataInReg;
-        axi_wvalid <= 1'b1; 
-        axi_wlast <= 1'b1;                                                        
-      end           
-    //直到收到响应，才拉低有效                                                                                                
-    else if (M_AXI_WREADY &&  axi_wvalid && axi_wlast )
-      begin                                                    
-        axi_wvalid  <= 1'b0; 
-        axi_wlast   <= 1'b0;                                                          
-      end
-    else
-      begin                                                                            
-        axi_wvalid <= axi_wvalid; 
-        axi_wlast <= axi_wlast;                                                    
-      end
-  end  
+AXIWriteChannel AXIWriteChannel_inst
+(
+
+    .M_AXI_ACLK			(M_AXI_ACLK),
+    .M_AXI_ARESETN		(M_AXI_ARESETN),
+
+    .M_AXI_WREADY		(M_AXI_WREADY),
+
+    .start_single_burst_write(start_single_burst_write),
+
+    .WriteData			(dataIn				),
+    .WriteDataValid		(dataInValid		),
+
+    .write_Fifo_RdEn	(write_Fifo_RdEn	),
+
+    .axi_wlast			(axi_wlast			),
+    .axi_wvalid			(axi_wvalid			),
+    .axi_wdata			(axi_wdata			)
+);
  
-//----------------------------
-//Write Response (B) Channel
-//----------------------------
-always@(posedge M_AXI_ACLK)
-begin
-  axi_bready <= 1'b1;
-end
 
 //----------------------------
 //Read Address Channel

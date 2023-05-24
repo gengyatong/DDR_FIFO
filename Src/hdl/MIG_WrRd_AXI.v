@@ -109,31 +109,68 @@ vio_axiDDR vio_axiDDRInst (
   .probe_in0(0),    // input wire [0 : 0] probe_in0 
 
   .probe_out0(MIGRst            ),  // output wire [0 : 0] probe_out0     //MIGRst         1   bit
-  .probe_out1(usrRst            ),  // output wire [0 : 0] probe_out1     //user reset        1   bit
-  .probe_out2(dataIn            ),  // output wire [127 : 0] probe_out2   //dataIn            128 bit
-  .probe_out3(dataInValid       ),  // output wire [0 : 0] probe_out3     //dataIn valid      1   bit
+  .probe_out1(                  ),  // output wire [0 : 0] probe_out1     //user reset        1   bit
+  .probe_out2(                  ),  // output wire [127 : 0] probe_out2   //dataIn            128 bit
+  .probe_out3(                  ),  // output wire [0 : 0] probe_out3     //dataIn valid      1   bit
   .probe_out4(WrEn              ),  // output wire [0 : 0] probe_out4     //wr en             1   bit
-  .probe_out5(dataInAddr        ),  // output wire [16 : 0] probe_out5    //dataInaddr        17  bit 
-  .probe_out6(dataInAddrValid   ),  // output wire [0 : 0] probe_out6     //dataInaddrValid   1   bit
+  .probe_out5(                  ),  // output wire [16 : 0] probe_out5    //dataInaddr        17  bit 
+  .probe_out6(                  ),  // output wire [0 : 0] probe_out6     //dataInaddrValid   1   bit
   .probe_out7(RdEn              ),  // output wire [0 : 0] probe_out7     //RdEn              1   bit
   .probe_out8(dataOutAddr       ),  // output wire [16 : 0] probe_out8    //dataOutAddr       17  bit
   .probe_out9(dataOutAddrValid  )  // output wire [0 : 0] probe_out9      //dataOutaddrValid  1   bit
+);
+
+wire [31:0] SimDataOut      ;
+wire        SimDataOutValid ;
+
+ SimulateDataGen SimulateDataGenInst(
+  .clk          (c0_ddr4_ui_clk ),      //现在用的还是AXI时钟，后期需要换成ADC时钟-----------------------------------
+  .En           (WrEn           ),
+  .DataOut      (SimDataOut     ),
+  .DataOutValid (SimDataOutValid)
+);
+
+wire [127:0] WriteFifoDataOut;
+wire         WriteFifoDataOutValid;
+wire         WriteFifoRdEn  ;      
+wire         WriteFifoEmpty ;
+wire [4:0]   RdDataCount    ;
+
+wire [4:0]   BurstThread;
+wire         FifoOverBurstThread;
+  
+assign BurstThread = 'd4;
+
+DDRWriteFifo DDRWriteFifoInst(  
+
+    .WrClk         (c0_ddr4_ui_clk          ),    //现在用的还是AXI时钟，后期需要换成ADC时钟-------------------------------------
+    .Rst           (c0_ddr4_ui_clk_sync_rst ),    //复位信号
+    .En            (WrEn                    ),    //模块使能信号,使能为高才开始写入数据
+    .DataIn        (SimDataOut              ),    //输入数据，有效通常一直为1  
+    .DataInValid   (SimDataOutValid         ),
+
+    .RdClk         (c0_ddr4_ui_clk       ), //读出时钟
+    .FifoRdEn      (WriteFifoRdEn        ), //FIfo的读信号由后级AXI接口控制 
+    .FifoEmpty     (WriteFifoEmpty       ), //Fifo空标志
+
+    .BurstThread   (BurstThread          ),
+    .FifoOverBurstThread(FifoOverBurstThread),//Fifo数据量达到一次AXI突发长度
+
+    .DataOut       (WriteFifoDataOut        ),//FIfo数据输出
+    .DataOutValid  (WriteFifoDataOutValid   ) //Fifo数据输出有效
 );
 
 
 
 AXI_USER_CODE AXI_USER_CODE_inst
 (
-  	//用户逻辑复位
-    .rst            (usrRst),
 
-//写状态相关信号
-    .dataIn         (dataIn         ),
-    .dataInValid    (dataInValid    ),
-    .WrEn           (WrEn           ),
+//写入Fifo相关信号
+    .fifo_over_burst_thread (FifoOverBurstThread      ),
+    .write_Fifo_RdEn        (WriteFifoRdEn            ),
+    .dataIn                 (WriteFifoDataOut         ),
+    .dataInValid            (WriteFifoDataOutValid    ),
 
-    .dataInAddr     (dataInAddr     ),
-    .dataInAddrValid(dataInAddrValid),
 
 //读状态相关信号
     .RdEn           (RdEn          ),
