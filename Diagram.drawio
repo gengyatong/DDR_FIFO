@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="Y5Y5It4pgEp3QDxbJxQu" name="第 1 页">
-        <mxGraphModel dx="703" dy="533" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1320" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -95,7 +95,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="5fQqk-cJtkmbtLY6SJZe" name="每个模块的关键信号说明">
-        <mxGraphModel dx="811" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1320" dy="773" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -117,10 +117,10 @@
                 <mxCell id="2NWbRt48MkIHp793HLQV-2" value="关键控制信号：&lt;br&gt;1、发送给写缓存FIFO的读使能" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;dashPattern=1 1;strokeWidth=4;" parent="1" vertex="1">
                     <mxGeometry x="60" y="240" width="290" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="703_ABPNdcmk_6YEJSQH-1" value="写地址通道生成" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=default;" vertex="1" parent="1">
+                <mxCell id="703_ABPNdcmk_6YEJSQH-1" value="写地址通道生成" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=default;" parent="1" vertex="1">
                     <mxGeometry x="60" y="310" width="120" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="703_ABPNdcmk_6YEJSQH-2" value="关键控制信号：&lt;br&gt;1、生成&lt;span style=&quot;background-color: rgb(30, 30, 30); color: rgb(212, 212, 212); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 14px;&quot;&gt;start_single_burst_write信号给写数据通道，表示一次写突发开始&lt;/span&gt;" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;dashPattern=1 1;strokeWidth=4;" vertex="1" parent="1">
+                <mxCell id="703_ABPNdcmk_6YEJSQH-2" value="关键控制信号：&lt;br&gt;1、生成&lt;span style=&quot;background-color: rgb(30, 30, 30); color: rgb(212, 212, 212); font-family: &amp;quot;Droid Sans Mono&amp;quot;, &amp;quot;monospace&amp;quot;, monospace; font-size: 14px;&quot;&gt;start_single_burst_write信号给写数据通道，表示一次写突发开始&lt;/span&gt;" style="text;strokeColor=none;align=left;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;dashPattern=1 1;strokeWidth=4;" parent="1" vertex="1">
                     <mxGeometry x="60" y="350" width="290" height="60" as="geometry"/>
                 </mxCell>
             </root>

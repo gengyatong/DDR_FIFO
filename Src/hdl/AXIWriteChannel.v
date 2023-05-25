@@ -39,9 +39,9 @@ module AXIWriteChannel
 
     output                              write_Fifo_RdEn,
 
-    output reg                              axi_wlast,
-    output reg                              axi_wvalid,
-    output reg [`C_M_AXI_DATA_WIDTH-1 : 0]  axi_wdata
+    output reg                                  axi_wlast,
+    output reg                                  axi_wvalid,
+    output wire [`C_M_AXI_DATA_WIDTH-1 : 0]     axi_wdata
 
 
 );
@@ -83,18 +83,7 @@ begin
 
 end  
 
-//数据输出
-always@(posedge M_AXI_ACLK)
-begin
-    if (M_AXI_ARESETN == 0)   
-      begin
-          axi_wdata <= 'd0;
-      end
-    else 
-      begin
-          axi_wdata <= WriteData;
-      end   
-end
+assign axi_wdata = WriteData;
 
 //前级FIFO读取
 assign write_Fifo_RdEn = wnext ;
