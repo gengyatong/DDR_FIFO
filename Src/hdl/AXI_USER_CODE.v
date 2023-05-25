@@ -58,11 +58,11 @@ module AXI_USER_CODE #(
 	input 								dataInValid      		,
 
 //读状态相关信号
-    input                           RdEn,
-    input [C_M_AXI_ADDR_WIDTH-1:0]  dataOutAddr,
-    input                           dataOutAddrValid,
-    output [C_M_AXI_DATA_WIDTH:0]   dataOut,
-    output                          dataOutValid,
+    input                           rd_en			,
+	input 							read_fifo_full	,
+
+    output [C_M_AXI_DATA_WIDTH:0]   dataOut			,
+    output                          dataOutValid	,
 
 //AXI interface
 
@@ -188,10 +188,10 @@ wire                             axi_wlast;
 wire                             axi_wvalid;
 wire                             axi_bready;
 
-reg [C_M_AXI_ADDR_WIDTH-1 : 0]  axi_araddr;
+wire [C_M_AXI_ADDR_WIDTH-1 : 0]  axi_araddr;
 
-reg                             axi_arvalid;
-reg                             axi_rready;
+wire                             axi_arvalid;
+wire                             axi_rready;
 
 	  // function called clogb2 that returns an integer which has the 
 	  // value of the ceiling of the log base 2.                      
@@ -305,55 +305,36 @@ AXIWriteChannel AXIWriteChannel_inst
 );
  
 
-//----------------------------
-//Read Address Channel
-//----------------------------
-reg RdEnREG;
-always@(posedge M_AXI_ACLK)
-begin
-  RdEnREG <= RdEn;
-end
+ AXIReadChannel AXIReadChannel_inst(
 
-always @(posedge M_AXI_ACLK)                                 
-begin                                                                                                                                 
-  if (M_AXI_ARESETN == 0  )                                         
-    begin                                                          
-      axi_arvalid <= 1'b0;                                         
-    end                                                            
-  // If previously not valid , start next transaction              
-  else if ( (RdEnREG == 1'b0) && (RdEn == 1'b1) )                
-    begin                                                          
-      axi_arvalid <= 1'b1;                                         
-    end                                                            
-  else if ( M_AXI_ARREADY && axi_arvalid)                           
-    begin                                                          
-      axi_arvalid <= 1'b0;                                         
-    end                                                            
-  else                                                             
-    axi_arvalid <= axi_arvalid;                                    
-end       
+        .M_AXI_ACLK		(M_AXI_ACLK		) ,
+        .M_AXI_ARESETN  (M_AXI_ARESETN	) ,
+		
+        .read_fifo_full (read_fifo_full	) ,
+        .axi_rready     (axi_rready		) ,
 
-	// Next address after ARREADY indicates previous address acceptance  
-	  always @(posedge M_AXI_ACLK)                                       
-	  begin                                                              
-	    if (M_AXI_ARESETN == 0 )                                          
-	      begin                                                          
-	        axi_araddr <= 'b0;                                           
-	      end                                                            
-	    else if ((RdEnREG == 1'b0) && (RdEn == 1'b1))                           
-	      begin                                                          
-	        axi_araddr <= dataOutAddr;                 
-	      end                                                            
-	    else                                                             
-	      axi_araddr <= axi_araddr;                                      
-	  end   
+        .M_AXI_RDATA	(M_AXI_RDATA	),
+        .M_AXI_RVALID	(M_AXI_RVALID	),
+        .M_AXI_RLAST 	(M_AXI_RLAST	),
+    
+        .axi_data_out	(dataOut		),
+        .axi_data_outValid(dataOutValid	)   
+    );
 
-//--------------------------------
-//Read Data (and Response) Channel
-//--------------------------------
-always@(posedge M_AXI_ACLK)
-begin
-  axi_rready <= 1'b1;
-end
+ AXIAddrReadChannel AXIAddrReadChannel_inst(
+        
+        .M_AXI_ACLK		(M_AXI_ACLK		),
+        .M_AXI_ARESETN	(M_AXI_ARESETN	),
+
+        .rd_en			(rd_en			),
+
+        .M_AXI_RVALID   (M_AXI_RVALID	),
+        .M_AXI_RLAST    (M_AXI_RLAST	),
+        .M_AXI_ARREADY  (M_AXI_ARREADY	),
+        .axi_araddr     (axi_araddr		),
+        .axi_arvalid  	(axi_arvalid	)    
+    );
+
+
 
 endmodule

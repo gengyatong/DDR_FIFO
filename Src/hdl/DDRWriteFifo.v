@@ -50,7 +50,7 @@ module DDRWriteFifo(
 );
 
 
-wire [4:0]  RdDataCount;
+wire [6:0]  RdDataCount;
 wire        fifoWrEn;
 reg [31:0]  DataInReg;
 wire        fifofull;

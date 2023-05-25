@@ -66,7 +66,7 @@ WriteFifo your_instance_name (
   .wr_ack(wr_ack),                // output wire wr_ack
   .empty(empty),                  // output wire empty
   .valid(valid),                  // output wire valid
-  .rd_data_count(rd_data_count),  // output wire [4 : 0] rd_data_count
+  .rd_data_count(rd_data_count),  // output wire [6 : 0] rd_data_count
   .wr_rst_busy(wr_rst_busy),      // output wire wr_rst_busy
   .rd_rst_busy(rd_rst_busy)      // output wire rd_rst_busy
 );

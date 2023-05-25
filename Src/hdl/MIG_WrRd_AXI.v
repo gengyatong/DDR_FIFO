@@ -100,8 +100,8 @@ wire          RdEn;
 wire [29:0]   dataOutAddr;
 wire          dataOutAddrValid ;
 
-wire [127:0]  dataOut;
-wire          dataOutValid;
+wire [127:0]  DDR_dataOut;
+wire          DDR_dataOutValid;
 
 vio_axiDDR vio_axiDDRInst (
   .clk      (c0_ddr4_ui_clk     ),  // input wire clk
@@ -109,7 +109,7 @@ vio_axiDDR vio_axiDDRInst (
   .probe_in0(0),    // input wire [0 : 0] probe_in0 
 
   .probe_out0(MIGRst            ),  // output wire [0 : 0] probe_out0     //MIGRst         1   bit
-  .probe_out1(                  ),  // output wire [0 : 0] probe_out1     //user reset        1   bit
+  .probe_out1(ctrl_rd_en        ),  // output wire [0 : 0] probe_out1     //user reset        1   bit
   .probe_out2(                  ),  // output wire [127 : 0] probe_out2   //dataIn            128 bit
   .probe_out3(                  ),  // output wire [0 : 0] probe_out3     //dataIn valid      1   bit
   .probe_out4(WrEn              ),  // output wire [0 : 0] probe_out4     //wr en             1   bit
@@ -136,10 +136,10 @@ wire         WriteFifoRdEn  ;
 wire         WriteFifoEmpty ;
 wire [4:0]   RdDataCount    ;
 
-wire [4:0]   BurstThread;
+wire [7:0]   BurstThread;
 wire         FifoOverBurstThread;
   
-assign BurstThread = 'd4;
+assign BurstThread = `C_M_AXI_BURST_LEN;
 
 DDRWriteFifo DDRWriteFifoInst(  
 
@@ -160,6 +160,24 @@ DDRWriteFifo DDRWriteFifoInst(
     .DataOutValid  (WriteFifoDataOutValid   ) //Fifo数据输出有效
 );
 
+wire DDR_rd_en;
+wire read_fifo_full;
+
+DDRReadFifo DDRReadFifo_inst
+(
+        .rst              (c0_ddr4_ui_clk_sync_rst),
+        .wr_clk           (c0_ddr4_ui_clk         ),         //DDR时钟域
+
+        .wr_dataIn        (DDR_dataOut            ),
+        .wr_dataIn_valid  (DDR_dataOutValid       ),
+        
+        .rd_clk           (c0_ddr4_ui_clk         ),         //ADC及DAC时钟域
+        .rd_dataout       (),
+        .rd_dataout_valid (),
+        .DDR_rd_en        (DDR_rd_en              ),
+        .fifo_full        (read_fifo_full         ),
+        .ctrl_rd_en       (ctrl_rd_en             )
+);
 
 
 AXI_USER_CODE AXI_USER_CODE_inst
@@ -173,11 +191,10 @@ AXI_USER_CODE AXI_USER_CODE_inst
 
 
 //读状态相关信号
-    .RdEn           (RdEn          ),
-    .dataOutAddr    (dataOutAddr   ),
-    .dataOutAddrValid(dataOutAddrValid),
-    .dataOut        (dataOut      ),
-    .dataOutValid   (dataOutValid ),
+    .read_fifo_full (read_fifo_full   ),
+    .rd_en          (DDR_rd_en        ),
+    .dataOut        (DDR_dataOut      ),
+    .dataOutValid   (DDR_dataOutValid ),
 
   .M_AXI_ACLK   (c0_ddr4_ui_clk),
   .M_AXI_ARESETN(~c0_ddr4_ui_clk_sync_rst),

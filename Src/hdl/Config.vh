@@ -33,8 +33,15 @@
 // Width of User Response Bus
 `define C_M_AXI_BUSER_WIDTH	  0
 
+//从DDR读出FIFO的缓存数据量
+`define DDR_READFIFO_DATANUM 255
+
+
 `define ILA_DDRWriteFifo
 `define ila_AXIWriteChannel
 `define ila_WriteDataChannel
+`define ila_DDR_read_fifo
+`define ila_axi_read_addr_channel
+
 
 `endif 
