@@ -93,9 +93,7 @@ ila_AXI your_instance_name (
 	.probe33(probe33), // input wire [0:0]  probe33 
 	.probe34(probe34), // input wire [1:0]  probe34 
 	.probe35(probe35), // input wire [3:0]  probe35 
-	.probe36(probe36), // input wire [127:0]  probe36 
-	.probe37(probe37), // input wire [0:0]  probe37 
-	.probe38(probe38) // input wire [127:0]  probe38
+	.probe36(probe36) // input wire [127:0]  probe36
 );
 
 // INST_TAG_END ------ End INSTANTIATION Template ---------

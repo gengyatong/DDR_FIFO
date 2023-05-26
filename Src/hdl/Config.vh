@@ -15,7 +15,7 @@
 `define         DDR4_CK_C_WIDTH             1  
 `define         DDR4_CK_T_WIDTH             1  
 
-`define C_M_AXI_BURST_LEN	 4
+`define C_M_AXI_BURST_LEN	 128
 // Thread ID Width
 `define C_M_AXI_ID_WIDTH	 4
 // Width of Address Bus
@@ -42,6 +42,6 @@
 `define ila_WriteDataChannel
 `define ila_DDR_read_fifo
 `define ila_axi_read_addr_channel
-
+`define ila_InOut_Data_Compare
 
 `endif 

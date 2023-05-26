@@ -53,7 +53,7 @@ wire                            read_fifo_prog_empty_rd_clk ;
 
 wire                            fifo_empty                  ;
 reg                             rd_en                       ;          
-wire [8:0]                      rd_data_count               ;
+wire [9:0]                      rd_data_count               ;
 
 Read_fifo Read_fifo_inst (
   .rst              (rst                        ),                              // input wire rst
@@ -70,8 +70,8 @@ Read_fifo Read_fifo_inst (
   
   .dout             (rd_dataout                 ),                               // output wire [31 : 0] dout
   .valid            (rd_dataout_valid           ),                               // output wire valid
-  .prog_empty       (read_fifo_prog_empty_rd_clk),                              // output wire prog_empty
-  .rd_data_count    (rd_data_count),          // output wire [8 : 0] rd_data_count
+  .prog_empty       (read_fifo_prog_empty_rd_clk),                               // output wire prog_empty
+  .rd_data_count    (rd_data_count),                                             // output wire [9 : 0] rd_data_count
   .wr_rst_busy(),                                                        // output wire wr_rst_busy
   .rd_rst_busy()                                                         // output wire rd_rst_busy
 );
@@ -133,11 +133,11 @@ begin
         end
 end
 
+
 `ifdef ila_DDR_read_fifo
 
 ila_DDR_read_fifo ila_DDR_read_fifo_inst (
 	.clk(wr_clk), // input wire clk
-
 
 	.probe0(rst_wr_clk  ), // input wire [0:0]  probe0  
 	.probe1(fifo_empty  ), // input wire [0:0]  probe1 
@@ -145,7 +145,8 @@ ila_DDR_read_fifo ila_DDR_read_fifo_inst (
 	.probe3(prog_empty_thresh), // input wire [8:0]  probe3 
 	.probe4(ctrl_rd_en  ), // input wire [0:0]  probe4 
 	.probe5(DDR_rd_en   ), // input wire [0:0]  probe5 
-	.probe6(rd_data_count) // input wire [8:0]  probe6
+	.probe6(rd_data_count), // input wire [8:0]  probe6
+    .probe7(fifo_full   )
 );
 `endif 
 

@@ -163,6 +163,9 @@ DDRWriteFifo DDRWriteFifoInst(
 wire DDR_rd_en;
 wire read_fifo_full;
 
+wire [31:0 ]   dataOut      ; 
+wire           dataOutValid ;       
+
 DDRReadFifo DDRReadFifo_inst
 (
         .rst              (c0_ddr4_ui_clk_sync_rst),
@@ -172,8 +175,8 @@ DDRReadFifo DDRReadFifo_inst
         .wr_dataIn_valid  (DDR_dataOutValid       ),
         
         .rd_clk           (c0_ddr4_ui_clk         ),         //ADC及DAC时钟域
-        .rd_dataout       (),
-        .rd_dataout_valid (),
+        .rd_dataout       (dataOut                ),
+        .rd_dataout_valid (dataOutValid           ),
         .DDR_rd_en        (DDR_rd_en              ),
         .fifo_full        (read_fifo_full         ),
         .ctrl_rd_en       (ctrl_rd_en             )
@@ -362,12 +365,22 @@ ila_AXI ila_AXI (
 	.probe33(c0_ddr4_s_axi_rvalid), // input wire [0:0]  probe33 
 	.probe34(c0_ddr4_s_axi_rresp ), // input wire [1:0]  probe34 
 	.probe35(c0_ddr4_s_axi_rid   ), // input wire [3:0]  probe35 
-	.probe36(c0_ddr4_s_axi_rdata ), // input wire [127:0]  probe36 
-	.probe37(dataOutValid        ), // input wire [0:0]  probe37 
-	.probe38(dataOut       ) // input wire [127:0]  probe38
+	.probe36(c0_ddr4_s_axi_rdata ) // input wire [127:0]  probe36 
+
 );
 
+`ifdef ila_InOut_Data_Compare
+ila_InOut_Data_Compare ila_InOut_Data_Compare_inst
+(
+  .clk(c0_ddr4_ui_clk),
 
+  .probe0(dataOut         ),
+  .probe1(dataOutValid    ),
+  .probe2(SimDataOut      ),
+  .probe3(SimDataOutValid )
+);
+
+`endif 
 
 
 endmodule

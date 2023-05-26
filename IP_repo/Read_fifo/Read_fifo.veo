@@ -61,12 +61,12 @@ Read_fifo your_instance_name (
   .din(din),                              // input wire [127 : 0] din
   .wr_en(wr_en),                          // input wire wr_en
   .rd_en(rd_en),                          // input wire rd_en
-  .prog_empty_thresh(prog_empty_thresh),  // input wire [8 : 0] prog_empty_thresh
+  .prog_empty_thresh(prog_empty_thresh),  // input wire [9 : 0] prog_empty_thresh
   .dout(dout),                            // output wire [31 : 0] dout
   .full(full),                            // output wire full
   .empty(empty),                          // output wire empty
   .valid(valid),                          // output wire valid
-  .rd_data_count(rd_data_count),          // output wire [8 : 0] rd_data_count
+  .rd_data_count(rd_data_count),          // output wire [9 : 0] rd_data_count
   .prog_empty(prog_empty),                // output wire prog_empty
   .wr_rst_busy(wr_rst_busy),              // output wire wr_rst_busy
   .rd_rst_busy(rd_rst_busy)              // output wire rd_rst_busy

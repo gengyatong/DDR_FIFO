@@ -65,7 +65,7 @@ COMPONENT WriteFifo
     wr_ack : OUT STD_LOGIC;
     empty : OUT STD_LOGIC;
     valid : OUT STD_LOGIC;
-    rd_data_count : OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
+    rd_data_count : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     wr_rst_busy : OUT STD_LOGIC;
     rd_rst_busy : OUT STD_LOGIC
   );

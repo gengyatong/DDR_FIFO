@@ -47,10 +47,6 @@ begin
     begin
         EnMutex <= 1'b1;
     end
-    else if( counter == 8'd255) 
-    begin
-        EnMutex <= 1'b0;
-    end
     else
     begin
         EnMutex <= EnMutex;
@@ -59,21 +55,16 @@ end
  
 always@(posedge clk)
 begin
+    
     if(EnMutex)
         begin
             counter <= counter + 1'b1;
             valid <=  1'b1;
         end
-
-    else if(counter == 8'd255 )
-        begin
-            counter <= 'd0;
-            valid   <= 'd0;
-        end
     else
         begin
-            counter <= 'd0;
-            valid <= 'd0;
+            counter <= counter;
+            valid <= 1'b0;
         end
 end
 
