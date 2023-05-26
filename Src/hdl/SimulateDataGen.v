@@ -30,50 +30,19 @@ module SimulateDataGen(
   output reg            DataOutValid
 );
 
-reg EnReg = 0;
-reg EnMutex = 0;
-
-reg [7:0] counter = 0;
-reg       valid = 0;
-
 always@(posedge clk)
 begin
-    EnReg <= En;
-end
-
-always@(posedge clk)
-begin
-    if((EnReg == 1'b0 )&&(En == 1'b1))
-    begin
-        EnMutex <= 1'b1;
-    end
-    else
-    begin
-        EnMutex <= EnMutex;
-    end
-end
- 
-always@(posedge clk)
-begin
-    
-    if(EnMutex)
+    if(En)
         begin
-            counter <= counter + 1'b1;
-            valid <=  1'b1;
+            DataOut      <= DataOut +1'b1;
+            DataOutValid <= 1'b1; 
         end
     else
         begin
-            counter <= counter;
-            valid <= 1'b0;
+            DataOut <= 'd0;
+            DataOutValid <= 1'b0; 
         end
 end
-
-always@(posedge clk)
-begin
-    DataOut         <= {4{counter}};
-    DataOutValid    <= valid;
-end
-
 endmodule
 
 

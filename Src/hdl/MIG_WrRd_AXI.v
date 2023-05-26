@@ -21,25 +21,42 @@
 `include "Config.vh"
 
 module MIG_WrRd_AXI(
-    input                                    c0_sys_clk_p               ,   //DDR200M 时钟输入
-    input                                    c0_sys_clk_n               ,
-    output [`DDR4_ADR_WIDTH      - 1 : 0]     c0_ddr4_adr                ,
-    output [`DDR4_BA_WIDTH       - 1 : 0]     c0_ddr4_ba                 ,
-    output [`DDR4_CKE_WIDTH      - 1 : 0]     c0_ddr4_cke                ,
-    output [`DDR4_CS_N_WIDTH     - 1 : 0]     c0_ddr4_cs_n               ,
-    inout  [`DDR4_DM_DBI_N_WIDTH - 1 : 0]     c0_ddr4_dm_dbi_n           ,
-    inout  [`DDR4_DQ_WIDTH       - 1 : 0]     c0_ddr4_dq                 ,
-    inout  [`DDR4_DQS_C_WIDTH    - 1 : 0]     c0_ddr4_dqs_c              ,
-    inout  [`DDR4_DQS_T_WIDTH    - 1 : 0]     c0_ddr4_dqs_t              ,
-    output [`DDR4_ODT_WIDTH      - 1 : 0]     c0_ddr4_odt                ,
-    output [`DDR4_BG_WIDTH       - 1 : 0]     c0_ddr4_bg                 ,
-    output                                   c0_ddr4_reset_n            ,
-    output                                   c0_ddr4_act_n              ,
-    output [`DDR4_CK_C_WIDTH     - 1 : 0]     c0_ddr4_ck_c               ,
+
+    input               mig_rst,
+
+    input               wr_clk,
+    input[31:0]         wr_dataIn,
+    input               wr_dataIn_valid,
+    
+    input               start_work,
+    input[31:0]         delay_thread,      
+
+    input               rd_clk,
+    output[31:0]        rd_dataOut,
+    output              rd_dataOut_valid,
+
+    output              mig_ui_clk,
+
+//mig核相关接口   
+    input                                     c0_sys_clk_p                ,   //DDR200M 时钟输入
+    input                                     c0_sys_clk_n                ,
+    output [`DDR4_ADR_WIDTH      - 1 : 0]     c0_ddr4_adr                 ,
+    output [`DDR4_BA_WIDTH       - 1 : 0]     c0_ddr4_ba                  ,
+    output [`DDR4_CKE_WIDTH      - 1 : 0]     c0_ddr4_cke                 ,
+    output [`DDR4_CS_N_WIDTH     - 1 : 0]     c0_ddr4_cs_n                ,
+    inout  [`DDR4_DM_DBI_N_WIDTH - 1 : 0]     c0_ddr4_dm_dbi_n            ,
+    inout  [`DDR4_DQ_WIDTH       - 1 : 0]     c0_ddr4_dq                  ,
+    inout  [`DDR4_DQS_C_WIDTH    - 1 : 0]     c0_ddr4_dqs_c               ,
+    inout  [`DDR4_DQS_T_WIDTH    - 1 : 0]     c0_ddr4_dqs_t               ,
+    output [`DDR4_ODT_WIDTH      - 1 : 0]     c0_ddr4_odt                 ,
+    output [`DDR4_BG_WIDTH       - 1 : 0]     c0_ddr4_bg                  ,
+    output                                    c0_ddr4_reset_n             ,
+    output                                    c0_ddr4_act_n               ,
+    output [`DDR4_CK_C_WIDTH     - 1 : 0]     c0_ddr4_ck_c                ,
     output [`DDR4_CK_T_WIDTH     - 1 : 0]     c0_ddr4_ck_t               
     );
 
-
+assign mig_ui_clk = c0_ddr4_ui_clk;
 
 
 wire [`C_M_AXI_ID_WIDTH-1   :0]  c0_ddr4_s_axi_awid      ; 
@@ -87,48 +104,40 @@ wire [`C_M_AXI_DATA_WIDTH-1   :0]   c0_ddr4_s_axi_rdata     ;
 wire                                c0_ddr4_ui_clk_sync_rst;  //MIG核输出的同步复位信号，取反后用于给AXI 接口复位
 
 
-wire          MIGRst;
-wire          usrRst;
-
 wire [127:0]  dataIn;
 wire          dataInValid;
-wire          WrEn;
-wire [29:0]   dataInAddr;  
-wire          dataInAddrValid;
-
-wire          RdEn;
-wire [29:0]   dataOutAddr;
-wire          dataOutAddrValid ;
-
 wire [127:0]  DDR_dataOut;
 wire          DDR_dataOutValid;
 
-vio_axiDDR vio_axiDDRInst (
-  .clk      (c0_ddr4_ui_clk     ),  // input wire clk
-  
-  .probe_in0(0),    // input wire [0 : 0] probe_in0 
 
-  .probe_out0(MIGRst            ),  // output wire [0 : 0] probe_out0     //MIGRst         1   bit
-  .probe_out1(ctrl_rd_en        ),  // output wire [0 : 0] probe_out1     //user reset        1   bit
-  .probe_out2(                  ),  // output wire [127 : 0] probe_out2   //dataIn            128 bit
-  .probe_out3(                  ),  // output wire [0 : 0] probe_out3     //dataIn valid      1   bit
-  .probe_out4(WrEn              ),  // output wire [0 : 0] probe_out4     //wr en             1   bit
-  .probe_out5(                  ),  // output wire [16 : 0] probe_out5    //dataInaddr        17  bit 
-  .probe_out6(                  ),  // output wire [0 : 0] probe_out6     //dataInaddrValid   1   bit
-  .probe_out7(RdEn              ),  // output wire [0 : 0] probe_out7     //RdEn              1   bit
-  .probe_out8(dataOutAddr       ),  // output wire [16 : 0] probe_out8    //dataOutAddr       17  bit
-  .probe_out9(dataOutAddrValid  )  // output wire [0 : 0] probe_out9      //dataOutaddrValid  1   bit
-);
+reg [31:0] wr_data_cnt = 'd0 ;
+reg ctrl_rd_en = 0;  //写入数量达到域值后，自动打开读使能
 
-wire [31:0] SimDataOut      ;
-wire        SimDataOutValid ;
+always@(posedge c0_ddr4_ui_clk)
+begin
+  if(c0_ddr4_ui_clk_sync_rst)
+    wr_data_cnt <= 'd0;
+  else if((start_work)&&(wr_dataIn_valid))
+    wr_data_cnt <= wr_data_cnt +1'b1;
+  else
+    wr_data_cnt <= wr_data_cnt;
+end
 
- SimulateDataGen SimulateDataGenInst(
-  .clk          (c0_ddr4_ui_clk ),      //现在用的还是AXI时钟，后期需要换成ADC时钟-----------------------------------
-  .En           (WrEn           ),
-  .DataOut      (SimDataOut     ),
-  .DataOutValid (SimDataOutValid)
-);
+always@(posedge c0_ddr4_ui_clk )
+begin
+  if(c0_ddr4_ui_clk_sync_rst)
+    ctrl_rd_en <= 0;
+  else if(wr_data_cnt >= delay_thread )
+    ctrl_rd_en <= 1'b1;
+  else
+    ctrl_rd_en <= ctrl_rd_en;
+end
+
+//===================================================
+
+//                WriteFifo
+
+//===================================================
 
 wire [127:0] WriteFifoDataOut;
 wire         WriteFifoDataOutValid;
@@ -143,11 +152,11 @@ assign BurstThread = `C_M_AXI_BURST_LEN;
 
 DDRWriteFifo DDRWriteFifoInst(  
 
-    .WrClk         (c0_ddr4_ui_clk          ),    //现在用的还是AXI时钟，后期需要换成ADC时钟-------------------------------------
+    .WrClk         (wr_clk                  ),    //现在用的还是AXI时钟，后期需要换成ADC时钟-------------------------------------
     .Rst           (c0_ddr4_ui_clk_sync_rst ),    //复位信号
-    .En            (WrEn                    ),    //模块使能信号,使能为高才开始写入数据
-    .DataIn        (SimDataOut              ),    //输入数据，有效通常一直为1  
-    .DataInValid   (SimDataOutValid         ),
+    .En            (start_work              ),    //模块使能信号,使能为高才开始写入数据
+    .DataIn        (wr_dataIn               ),    //输入数据，有效通常一直为1  
+    .DataInValid   (wr_dataIn_valid         ),
 
     .RdClk         (c0_ddr4_ui_clk       ), //读出时钟
     .FifoRdEn      (WriteFifoRdEn        ), //FIfo的读信号由后级AXI接口控制 
@@ -160,12 +169,16 @@ DDRWriteFifo DDRWriteFifoInst(
     .DataOutValid  (WriteFifoDataOutValid   ) //Fifo数据输出有效
 );
 
+
+//===================================================
+
+//                     ReadFifo
+
+//===================================================
+
 wire DDR_rd_en;
 wire read_fifo_full;
-
-wire [31:0 ]   dataOut      ; 
-wire           dataOutValid ;       
-
+   
 DDRReadFifo DDRReadFifo_inst
 (
         .rst              (c0_ddr4_ui_clk_sync_rst),
@@ -174,30 +187,35 @@ DDRReadFifo DDRReadFifo_inst
         .wr_dataIn        (DDR_dataOut            ),
         .wr_dataIn_valid  (DDR_dataOutValid       ),
         
-        .rd_clk           (c0_ddr4_ui_clk         ),         //ADC及DAC时钟域
-        .rd_dataout       (dataOut                ),
-        .rd_dataout_valid (dataOutValid           ),
+        .rd_clk           (rd_clk                 ),         //ADC及DAC时钟域
+        .rd_dataout       (rd_dataOut             ),
+        .rd_dataout_valid (rd_dataOut_valid       ),
         .DDR_rd_en        (DDR_rd_en              ),
         .fifo_full        (read_fifo_full         ),
-        .ctrl_rd_en       (ctrl_rd_en             )
+        .ctrl_rd_en       (ctrl_rd_en             )           //一旦该信号位高，将从FIFO中开始读出数据
 );
+
+//===================================================
+
+//                   AXI接口
+
+//===================================================
 
 
 AXI_USER_CODE AXI_USER_CODE_inst
 (
 
 //写入Fifo相关信号
-    .fifo_over_burst_thread (FifoOverBurstThread      ),
-    .write_Fifo_RdEn        (WriteFifoRdEn            ),
-    .dataIn                 (WriteFifoDataOut         ),
-    .dataInValid            (WriteFifoDataOutValid    ),
-
+  .fifo_over_burst_thread (FifoOverBurstThread      ),
+  .write_Fifo_RdEn        (WriteFifoRdEn            ),
+  .dataIn                 (WriteFifoDataOut         ),
+  .dataInValid            (WriteFifoDataOutValid    ),
 
 //读状态相关信号
-    .read_fifo_full (read_fifo_full   ),
-    .rd_en          (DDR_rd_en        ),
-    .dataOut        (DDR_dataOut      ),
-    .dataOutValid   (DDR_dataOutValid ),
+  .read_fifo_full (read_fifo_full   ),
+  .rd_en          (DDR_rd_en        ),
+  .dataOut        (DDR_dataOut      ),
+  .dataOutValid   (DDR_dataOutValid ),
 
   .M_AXI_ACLK   (c0_ddr4_ui_clk),
   .M_AXI_ARESETN(~c0_ddr4_ui_clk_sync_rst),
@@ -244,6 +262,13 @@ AXI_USER_CODE AXI_USER_CODE_inst
   .M_AXI_RVALID   (c0_ddr4_s_axi_rvalid  ),
   .M_AXI_RREADY   (c0_ddr4_s_axi_rready  )
 );
+
+//===================================================
+
+//                     MIG
+
+//===================================================
+
 
 
 ddr4_0 ddr4_0_inst (
@@ -317,13 +342,12 @@ ddr4_0 ddr4_0_inst (
   .addn_ui_clkout1        (addn_ui_clkout1),                  // output wire addn_ui_clkout1
   .addn_ui_clkout2        (addn_ui_clkout2),                  // output wire addn_ui_clkout2
   
-  .sys_rst( MIGRst )                                  // input wire sys_rst
+  .sys_rst( mig_rst )                                  // input wire sys_rst
 );
 
 
 ila_AXI ila_AXI (
 	.clk(c0_ddr4_ui_clk), // input wire clk
-
 
 	.probe0 (c0_ddr4_s_axi_awid   ), // input wire [3:0]  probe0  
 	.probe1 (c0_ddr4_s_axi_awaddr ), // input wire [29:0]  probe1 
@@ -369,18 +393,7 @@ ila_AXI ila_AXI (
 
 );
 
-`ifdef ila_InOut_Data_Compare
-ila_InOut_Data_Compare ila_InOut_Data_Compare_inst
-(
-  .clk(c0_ddr4_ui_clk),
 
-  .probe0(dataOut         ),
-  .probe1(dataOutValid    ),
-  .probe2(SimDataOut      ),
-  .probe3(SimDataOutValid )
-);
-
-`endif 
 
 
 endmodule
