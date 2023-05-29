@@ -1,4 +1,12 @@
 
+#外部50M输入时钟，与DDR颗粒的时钟是异步的
+set_property PACKAGE_PIN J25 [get_ports crystal_clk_50m]
+set_property IOSTANDARD LVCMOS25 [get_ports crystal_clk_50m]
+
+#fan
+set_property PACKAGE_PIN AL13 [get_ports fan_en]
+set_property IOSTANDARD LVCMOS25 [get_ports fan_en]
+
 set_property PACKAGE_PIN G9 [get_ports c0_sys_clk_p]
 set_property PACKAGE_PIN F9 [get_ports c0_sys_clk_n]
 

@@ -22,6 +22,12 @@
 
 module Top(
 
+    //外部单端输入50M时钟
+    input                                     crystal_clk_50m             ,
+    
+    // Fan Control
+	  output                                    fan_en                      ,
+
     input                                     c0_sys_clk_p                ,   
     input                                     c0_sys_clk_n                ,
     output [`DDR4_ADR_WIDTH      - 1 : 0]     c0_ddr4_adr                 ,
@@ -41,19 +47,46 @@ module Top(
    
 );
 
+//==============================================================
 
-wire          MIGRst        ;
+//                 外部50M时钟输入，产生250M时钟
+
+//==============================================================
+wire user_clk_250M;
+wire crystal_clk_50m_bufg;
+
+ BUFG BUFG_inst (
+      .O(crystal_clk_50m_bufg), // 1-bit output: Clock output
+      .I(crystal_clk_50m)  // 1-bit input: Clock input
+   );
+
+
+clk_wiz_0 clk_wiz_0_inst
+(
+    // Clock out ports
+    .clk_out1 (user_clk_250M),      // output clk_out1
+    
+    // Status and control signals
+    .reset    (           0),           // input reset
+    .locked   (            ),           // output locked
+   
+   // Clock in ports
+    .clk_in1  (crystal_clk_50m_bufg)     // input clk_in1
+);    
+
+
+wire          user_rst        ;
 wire          mig_ui_clk;
 wire          start_work    ;
 wire [31:0]   delay_thread  ;        
 wire          data_check_rst;
 
 vio_axiDDR vio_axiDDRInst (
-  .clk      (mig_ui_clk     ),  // input wire clk
+  .clk      (user_clk_250M     ),  // input wire clk
   
   .probe_in0(0),    // input wire [0 : 0] probe_in0 
 
-  .probe_out0(MIGRst            ),  // output wire [0 : 0] probe_out0     //MIGRst         1   bit
+  .probe_out0(user_rst          ),  // output wire [0 : 0] probe_out0     //MIGRst         1   bit
   .probe_out1(data_check_rst    ),  // output wire [0 : 0] probe_out1     //user reset        1   bit
   .probe_out2(delay_thread      ),  // output wire [127 : 0] probe_out2   //dataIn            128 bit
   .probe_out3(                  ),  // output wire [0 : 0] probe_out3     //dataIn valid      1   bit
@@ -64,6 +97,7 @@ vio_axiDDR vio_axiDDRInst (
   .probe_out8(                  ),  // output wire [16 : 0] probe_out8    //dataOutAddr       17  bit
   .probe_out9(                  )  // output wire [0 : 0] probe_out9      //dataOutaddrValid  1   bit
 );
+
 
 //==============================================================
 
@@ -76,7 +110,7 @@ wire [31:0] SimDataOut      ;
 wire        SimDataOutValid ;
 
  SimulateDataGen SimulateDataGenInst(
-  .clk          (mig_ui_clk ),      //现在用的还是AXI时钟，后期需要换成ADC时钟-----------------------------------
+  .clk          (user_clk_250M  ),      //现在用的还是AXI时钟，后期需要换成ADC时钟-----------------------------------
   .En           (start_work     ),
   .DataOut      (SimDataOut     ),
   .DataOutValid (SimDataOutValid)
@@ -93,16 +127,16 @@ wire        rd_dataOut_valid;
 
 MIG_WrRd_AXI MIG_WrRd_AXI_inst(
    
-    .mig_rst            (MIGRst         ), 
+    .user_rst           (user_rst       ), 
 
-    .wr_clk             (mig_ui_clk     ),          //后续替换为ADC采样时钟
+    .wr_clk             (user_clk_250M  ),          //后续替换为ADC采样时钟
     .wr_dataIn          (SimDataOut     ),
     .wr_dataIn_valid    (SimDataOutValid),
 
     .start_work         (start_work     ),
     .delay_thread       (delay_thread   ),      
 
-    .rd_clk             (mig_ui_clk     ),          //后续替换为DAC读取时钟
+    .rd_clk             (user_clk_250M  ),          //后续替换为DAC读取时钟
     .rd_dataOut         (rd_dataOut     ),
     .rd_dataOut_valid   (rd_dataOut_valid),
 
@@ -139,7 +173,7 @@ wire [31:0] data_differ;
 
 CheckDataCorrectness CheckDataCorrectness_inst(
 
-    .clk            (mig_ui_clk         ),
+    .clk            (user_clk_250M      ),
     .rst            (data_check_rst     ),
     .wr_data        (SimDataOut         ),
     .wr_data_valid  (SimDataOutValid    ),   
@@ -152,12 +186,10 @@ CheckDataCorrectness CheckDataCorrectness_inst(
 
 );
 
-
-
 `ifdef ila_InOut_Data_Compare
 ila_InOut_Data_Compare ila_InOut_Data_Compare_inst
 (
-  .clk(mig_ui_clk),
+  .clk   (user_clk_250M   ),
 
   .probe0(rd_dataOut      ),
   .probe1(rd_dataOut_valid),
@@ -169,5 +201,8 @@ ila_InOut_Data_Compare ila_InOut_Data_Compare_inst
 );
 
 `endif 
+
+//打开风扇
+assign fan_en = 1'b1;
 
 endmodule

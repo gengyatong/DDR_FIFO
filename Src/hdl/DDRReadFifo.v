@@ -70,7 +70,7 @@ Read_fifo Read_fifo_inst (
   
   .dout             (rd_dataout                 ),                               // output wire [31 : 0] dout
   .valid            (rd_dataout_valid           ),                               // output wire valid
-  .prog_empty       (read_fifo_prog_empty_rd_clk),                               // output wire prog_empty
+  .prog_empty       (read_fifo_prog_empty       ),                               // output wire prog_empty
   .rd_data_count    (rd_data_count),                                             // output wire [9 : 0] rd_data_count
   .wr_rst_busy(),                                                        // output wire wr_rst_busy
   .rd_rst_busy()                                                         // output wire rd_rst_busy
@@ -93,7 +93,7 @@ begin
             rd_en <= rd_en;
         end
 end
-
+/*
 //写时钟域下的Fifo可编程空（读时钟域下的可编程空需要跨时钟域到写时钟域下面，然后写时钟域根据是编程空状态决定 是否要从DDR中读取数据 ）
 (*ASYNC_REG = "TRUE" *)reg read_fifo_prog_empty_wr_clk , read_fifo_prog_empty_wr_clk_async ;
 always@(posedge wr_clk)
@@ -115,23 +115,34 @@ begin
     ctrl_rd_en_async <= ctrl_rd_en;
     ctrl_rd_en_wr_clk<= ctrl_rd_en_async;
 end
+*/
+reg DDR_rd_en_rd_clk;
+(*ASYNC_REG = "TRUE" *)reg DDR_rd_en_async,DDR_rd_en_wr_clk ;
 
-always@(posedge wr_clk)
+always@(posedge rd_clk)
 begin
-    if(rst_wr_clk)
+    if(rst)
         begin
-            DDR_rd_en <= 1'b0;
+            DDR_rd_en_rd_clk <= 1'b0;
         end
     //同步后的读控制信号有效，且fifo读空到了prog_empty之下，就开始向DDR请求    
-    else if((read_fifo_prog_empty_wr_clk)&&(ctrl_rd_en_wr_clk))
+    else if((read_fifo_prog_empty)&&(ctrl_rd_en))
         begin
-            DDR_rd_en <= 1'b1;
+            DDR_rd_en_rd_clk <= 1'b1;
         end
     else
         begin
-            DDR_rd_en <= 1'b0;
+            DDR_rd_en_rd_clk <= 1'b0;
         end
 end
+
+always@(posedge wr_clk)
+begin
+    DDR_rd_en_async  <=  DDR_rd_en_rd_clk;
+    DDR_rd_en_wr_clk <=  DDR_rd_en_async;
+    DDR_rd_en        <=  DDR_rd_en_wr_clk;
+end 
+
 
 
 `ifdef ila_DDR_read_fifo

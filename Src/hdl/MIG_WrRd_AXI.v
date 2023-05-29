@@ -22,7 +22,7 @@
 
 module MIG_WrRd_AXI(
 
-    input               mig_rst,
+    input               user_rst,
 
     input               wr_clk,
     input[31:0]         wr_dataIn,
@@ -113,9 +113,9 @@ wire          DDR_dataOutValid;
 reg [31:0] wr_data_cnt = 'd0 ;
 reg ctrl_rd_en = 0;  //写入数量达到域值后，自动打开读使能
 
-always@(posedge c0_ddr4_ui_clk)
+always@(posedge wr_clk)
 begin
-  if(c0_ddr4_ui_clk_sync_rst)
+  if(user_rst)
     wr_data_cnt <= 'd0;
   else if((start_work)&&(wr_dataIn_valid))
     wr_data_cnt <= wr_data_cnt +1'b1;
@@ -123,9 +123,9 @@ begin
     wr_data_cnt <= wr_data_cnt;
 end
 
-always@(posedge c0_ddr4_ui_clk )
+always@(posedge rd_clk )
 begin
-  if(c0_ddr4_ui_clk_sync_rst)
+  if(user_rst)
     ctrl_rd_en <= 0;
   else if(wr_data_cnt >= delay_thread )
     ctrl_rd_en <= 1'b1;
@@ -181,7 +181,7 @@ wire read_fifo_full;
    
 DDRReadFifo DDRReadFifo_inst
 (
-        .rst              (c0_ddr4_ui_clk_sync_rst),
+        .rst              (user_rst                ),
         .wr_clk           (c0_ddr4_ui_clk         ),         //DDR时钟域
 
         .wr_dataIn        (DDR_dataOut            ),
@@ -342,7 +342,7 @@ ddr4_0 ddr4_0_inst (
   .addn_ui_clkout1        (addn_ui_clkout1),                  // output wire addn_ui_clkout1
   .addn_ui_clkout2        (addn_ui_clkout2),                  // output wire addn_ui_clkout2
   
-  .sys_rst( mig_rst )                                  // input wire sys_rst
+  .sys_rst( user_rst )                                  // input wire sys_rst
 );
 
 

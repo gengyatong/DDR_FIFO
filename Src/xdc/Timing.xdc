@@ -1,0 +1,2 @@
+set_false_path -from [get_cells MIG_WrRd_AXI_inst/DDRReadFifo_inst/DDR_rd_en_rd_clk_reg] -to  [get_cells MIG_WrRd_AXI_inst/DDRReadFifo_inst/DDR_rd_en_async_reg]
+set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets crystal_clk_50m_IBUF_inst/O]

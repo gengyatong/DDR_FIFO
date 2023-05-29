@@ -263,7 +263,7 @@ module ddr4_0_ddr4 #
     parameter C_S_AXI_SUPPORTS_NARROW_BURST   = 0,
                                               // Indicates whether to instatiate upsizer
                                               // Range: 0, 1
-    parameter C_RD_WR_ARB_ALGORITHM           = "RD_PRI_REG",
+    parameter C_RD_WR_ARB_ALGORITHM           = "RD_PRI_REG_STARVE_LIMIT",
                                              // Indicates the Arbitration
                                              // Allowed values - "TDM", "ROUND_ROBIN",
                                              // "RD_PRI_REG", "RD_PRI_REG_STARVE_LIMIT"
