@@ -34,7 +34,7 @@
 `define C_M_AXI_BUSER_WIDTH	  0
 
 //从DDR读出FIFO的缓存数据量
-`define DDR_READFIFO_DATANUM 255
+`define DDR_READFIFO_DATANUM 400
 
 
 `define ILA_DDRWriteFifo
