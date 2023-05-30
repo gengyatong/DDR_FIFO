@@ -25,14 +25,14 @@ module MIG_WrRd_AXI(
     input               user_rst,
 
     input               wr_clk,
-    input[31:0]         wr_dataIn,
+    input[47:0]         wr_dataIn,
     input               wr_dataIn_valid,
     
     input               start_work,
     input[31:0]         delay_thread,      
 
     input               rd_clk,
-    output[31:0]        rd_dataOut,
+    output[47:0]        rd_dataOut,
     output              rd_dataOut_valid,
 
     output              mig_ui_clk,
@@ -106,8 +106,7 @@ wire                                c0_ddr4_ui_clk_sync_rst;  //MIG核输出的�
 
 wire [127:0]  dataIn;
 wire          dataInValid;
-wire [127:0]  DDR_dataOut;
-wire          DDR_dataOutValid;
+
 
 
 reg [31:0] wr_data_cnt = 'd0 ;
@@ -139,8 +138,11 @@ end
 
 //===================================================
 
-wire [127:0] WriteFifoDataOut;
+wire [191:0] WriteFifoDataOut;
 wire         WriteFifoDataOutValid;
+wire [255:0] WriteFifoDataOut_256bit;
+wire         WriteFifoDataOut_256bit_valid;
+
 wire         WriteFifoRdEn  ;      
 wire         WriteFifoEmpty ;
 wire [4:0]   RdDataCount    ;
@@ -168,7 +170,8 @@ DDRWriteFifo DDRWriteFifoInst(
     .DataOut       (WriteFifoDataOut        ),//FIfo数据输出
     .DataOutValid  (WriteFifoDataOutValid   ) //Fifo数据输出有效
 );
-
+assign  WriteFifoDataOut_256bit       = { {64{1'b0}} ,WriteFifoDataOut };
+assign  WriteFifoDataOut_256bit_valid =   WriteFifoDataOutValid;
 
 //===================================================
 
@@ -178,10 +181,13 @@ DDRWriteFifo DDRWriteFifoInst(
 
 wire DDR_rd_en;
 wire read_fifo_full;
-   
+
+wire [255:0]  DDR_dataOut;
+wire          DDR_dataOutValid;
+
 DDRReadFifo DDRReadFifo_inst
 (
-        .rst              (user_rst                ),
+        .rst              (user_rst               ),
         .wr_clk           (c0_ddr4_ui_clk         ),         //DDR时钟域
 
         .wr_dataIn        (DDR_dataOut            ),
@@ -206,10 +212,10 @@ AXI_USER_CODE AXI_USER_CODE_inst
 (
 
 //写入Fifo相关信号
-  .fifo_over_burst_thread (FifoOverBurstThread      ),
-  .write_Fifo_RdEn        (WriteFifoRdEn            ),
-  .dataIn                 (WriteFifoDataOut         ),
-  .dataInValid            (WriteFifoDataOutValid    ),
+  .fifo_over_burst_thread (FifoOverBurstThread              ),
+  .write_Fifo_RdEn        (WriteFifoRdEn                    ),
+  .dataIn                 (WriteFifoDataOut_256bit          ),
+  .dataInValid            (WriteFifoDataOut_256bit_valid    ),
 
 //读状态相关信号
   .read_fifo_full (read_fifo_full   ),
@@ -345,8 +351,8 @@ ddr4_0 ddr4_0_inst (
   .sys_rst( user_rst )                                  // input wire sys_rst
 );
 
-
-ila_AXI ila_AXI (
+`ifdef ila_AXI
+ila_AXI ila_AXI_inst (
 	.clk(c0_ddr4_ui_clk), // input wire clk
 
 	.probe0 (c0_ddr4_s_axi_awid   ), // input wire [3:0]  probe0  
@@ -393,7 +399,7 @@ ila_AXI ila_AXI (
 
 );
 
-
+`endif 
 
 
 endmodule

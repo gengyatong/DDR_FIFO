@@ -32,7 +32,7 @@ module DDRReadFifo(
 
         
         input                           rd_clk,         //ADC及DAC时钟域
-        output[31:0]                    rd_dataout,
+        output[47:0]                    rd_dataout,
         output                          rd_dataout_valid,
 
         //发送给DDR 的数据读取信号，一旦AXI的读取相关通道收到这个信号，就会向MIG核请求读出数据
@@ -60,7 +60,7 @@ Read_fifo Read_fifo_inst (
   .wr_clk           (wr_clk                     ),                              // input wire wr_clk
   .rd_clk           (rd_clk                     ),                              // input wire rd_clk
   
-  .din              (wr_dataIn                  ),                               // input wire [127 : 0] din
+  .din              (wr_dataIn[191:0]           ),                               // input wire [127 : 0] din
   .wr_en            (wr_dataIn_valid            ),                               // input wire wr_en
   .rd_en            (rd_en                      ),                               // input wire rd_en
   .prog_empty_thresh(prog_empty_thresh          ),                               // input wire [7 : 0] prog_empty_thresh
@@ -150,7 +150,7 @@ end
 ila_DDR_read_fifo ila_DDR_read_fifo_inst (
 	.clk(wr_clk), // input wire clk
 
-	.probe0(rst_wr_clk  ), // input wire [0:0]  probe0  
+	.probe0(rst         ), // input wire [0:0]  probe0  
 	.probe1(fifo_empty  ), // input wire [0:0]  probe1 
 	.probe2(rd_en       ), // input wire [0:0]  probe2 
 	.probe3(prog_empty_thresh), // input wire [8:0]  probe3 

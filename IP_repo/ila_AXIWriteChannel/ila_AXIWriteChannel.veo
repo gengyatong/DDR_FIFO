@@ -60,7 +60,7 @@ ila_AXIWriteChannel your_instance_name (
 	.probe0(probe0), // input wire [0:0]  probe0  
 	.probe1(probe1), // input wire [0:0]  probe1 
 	.probe2(probe2), // input wire [0:0]  probe2 
-	.probe3(probe3), // input wire [29:0]  probe3 
+	.probe3(probe3), // input wire [30:0]  probe3 
 	.probe4(probe4), // input wire [11:0]  probe4 
 	.probe5(probe5), // input wire [0:0]  probe5 
 	.probe6(probe6), // input wire [0:0]  probe6 

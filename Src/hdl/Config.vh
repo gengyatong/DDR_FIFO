@@ -6,10 +6,10 @@
 `define         DDR4_BA_WIDTH               2  
 `define         DDR4_CKE_WIDTH              1  
 `define         DDR4_CS_N_WIDTH             1  
-`define         DDR4_DM_DBI_N_WIDTH         2  
-`define         DDR4_DQ_WIDTH               16 
-`define         DDR4_DQS_C_WIDTH            2  
-`define         DDR4_DQS_T_WIDTH            2  
+`define         DDR4_DM_DBI_N_WIDTH         4  
+`define         DDR4_DQ_WIDTH               32 
+`define         DDR4_DQS_C_WIDTH            4  
+`define         DDR4_DQS_T_WIDTH            4  
 `define         DDR4_ODT_WIDTH              1  
 `define         DDR4_BG_WIDTH               1  
 `define         DDR4_CK_C_WIDTH             1  
@@ -19,9 +19,9 @@
 // Thread ID Width
 `define C_M_AXI_ID_WIDTH	 4
 // Width of Address Bus
-`define C_M_AXI_ADDR_WIDTH	 30
+`define C_M_AXI_ADDR_WIDTH	 31
 // Width of Data Bus
-`define C_M_AXI_DATA_WIDTH	 128
+`define C_M_AXI_DATA_WIDTH	 256
 // Width of User Write Address Bus
 `define C_M_AXI_AWUSER_WIDTH  0
 // Width of User Read Address Bus
@@ -37,11 +37,12 @@
 `define DDR_READFIFO_DATANUM 400
 
 
-`define ILA_DDRWriteFifo
-`define ila_AXIWriteChannel
-`define ila_WriteDataChannel
-`define ila_DDR_read_fifo
-`define ila_axi_read_addr_channel
+//`define ILA_DDRWriteFifo
+//`define ila_AXIWriteChannel
+//`define ila_WriteDataChannel
+//`define ila_DDR_read_fifo
+//`define ila_axi_read_addr_channel
 `define ila_InOut_Data_Compare
+`define ila_AXI
 
 `endif 

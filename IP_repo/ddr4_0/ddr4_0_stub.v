@@ -1,7 +1,7 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-// Date        : Mon May 29 14:21:25 2023
+// Date        : Tue May 30 11:08:27 2023
 // Host        : a-OptiPlex-7080 running 64-bit Ubuntu 20.04.4 LTS
 // Command     : write_verilog -force -mode synth_stub /home/a/FPGA_CODE/Learning/AXI_DDR/IP_repo/ddr4_0/ddr4_0_stub.v
 // Design      : ddr4_0
@@ -28,7 +28,7 @@ module ddr4_0(sys_rst, c0_sys_clk_p, c0_sys_clk_n,
   c0_ddr4_s_axi_arvalid, c0_ddr4_s_axi_arready, c0_ddr4_s_axi_rready, c0_ddr4_s_axi_rid, 
   c0_ddr4_s_axi_rdata, c0_ddr4_s_axi_rresp, c0_ddr4_s_axi_rlast, c0_ddr4_s_axi_rvalid, 
   dbg_bus)
-/* synthesis syn_black_box black_box_pad_pin="sys_rst,c0_sys_clk_p,c0_sys_clk_n,c0_ddr4_act_n,c0_ddr4_adr[16:0],c0_ddr4_ba[1:0],c0_ddr4_bg[0:0],c0_ddr4_cke[0:0],c0_ddr4_odt[0:0],c0_ddr4_cs_n[0:0],c0_ddr4_ck_t[0:0],c0_ddr4_ck_c[0:0],c0_ddr4_reset_n,c0_ddr4_dm_dbi_n[1:0],c0_ddr4_dq[15:0],c0_ddr4_dqs_c[1:0],c0_ddr4_dqs_t[1:0],c0_init_calib_complete,c0_ddr4_ui_clk,c0_ddr4_ui_clk_sync_rst,addn_ui_clkout1,addn_ui_clkout2,dbg_clk,c0_ddr4_aresetn,c0_ddr4_s_axi_awid[3:0],c0_ddr4_s_axi_awaddr[29:0],c0_ddr4_s_axi_awlen[7:0],c0_ddr4_s_axi_awsize[2:0],c0_ddr4_s_axi_awburst[1:0],c0_ddr4_s_axi_awlock[0:0],c0_ddr4_s_axi_awcache[3:0],c0_ddr4_s_axi_awprot[2:0],c0_ddr4_s_axi_awqos[3:0],c0_ddr4_s_axi_awvalid,c0_ddr4_s_axi_awready,c0_ddr4_s_axi_wdata[127:0],c0_ddr4_s_axi_wstrb[15:0],c0_ddr4_s_axi_wlast,c0_ddr4_s_axi_wvalid,c0_ddr4_s_axi_wready,c0_ddr4_s_axi_bready,c0_ddr4_s_axi_bid[3:0],c0_ddr4_s_axi_bresp[1:0],c0_ddr4_s_axi_bvalid,c0_ddr4_s_axi_arid[3:0],c0_ddr4_s_axi_araddr[29:0],c0_ddr4_s_axi_arlen[7:0],c0_ddr4_s_axi_arsize[2:0],c0_ddr4_s_axi_arburst[1:0],c0_ddr4_s_axi_arlock[0:0],c0_ddr4_s_axi_arcache[3:0],c0_ddr4_s_axi_arprot[2:0],c0_ddr4_s_axi_arqos[3:0],c0_ddr4_s_axi_arvalid,c0_ddr4_s_axi_arready,c0_ddr4_s_axi_rready,c0_ddr4_s_axi_rid[3:0],c0_ddr4_s_axi_rdata[127:0],c0_ddr4_s_axi_rresp[1:0],c0_ddr4_s_axi_rlast,c0_ddr4_s_axi_rvalid,dbg_bus[511:0]" */;
+/* synthesis syn_black_box black_box_pad_pin="sys_rst,c0_sys_clk_p,c0_sys_clk_n,c0_ddr4_act_n,c0_ddr4_adr[16:0],c0_ddr4_ba[1:0],c0_ddr4_bg[0:0],c0_ddr4_cke[0:0],c0_ddr4_odt[0:0],c0_ddr4_cs_n[0:0],c0_ddr4_ck_t[0:0],c0_ddr4_ck_c[0:0],c0_ddr4_reset_n,c0_ddr4_dm_dbi_n[3:0],c0_ddr4_dq[31:0],c0_ddr4_dqs_c[3:0],c0_ddr4_dqs_t[3:0],c0_init_calib_complete,c0_ddr4_ui_clk,c0_ddr4_ui_clk_sync_rst,addn_ui_clkout1,addn_ui_clkout2,dbg_clk,c0_ddr4_aresetn,c0_ddr4_s_axi_awid[3:0],c0_ddr4_s_axi_awaddr[30:0],c0_ddr4_s_axi_awlen[7:0],c0_ddr4_s_axi_awsize[2:0],c0_ddr4_s_axi_awburst[1:0],c0_ddr4_s_axi_awlock[0:0],c0_ddr4_s_axi_awcache[3:0],c0_ddr4_s_axi_awprot[2:0],c0_ddr4_s_axi_awqos[3:0],c0_ddr4_s_axi_awvalid,c0_ddr4_s_axi_awready,c0_ddr4_s_axi_wdata[255:0],c0_ddr4_s_axi_wstrb[31:0],c0_ddr4_s_axi_wlast,c0_ddr4_s_axi_wvalid,c0_ddr4_s_axi_wready,c0_ddr4_s_axi_bready,c0_ddr4_s_axi_bid[3:0],c0_ddr4_s_axi_bresp[1:0],c0_ddr4_s_axi_bvalid,c0_ddr4_s_axi_arid[3:0],c0_ddr4_s_axi_araddr[30:0],c0_ddr4_s_axi_arlen[7:0],c0_ddr4_s_axi_arsize[2:0],c0_ddr4_s_axi_arburst[1:0],c0_ddr4_s_axi_arlock[0:0],c0_ddr4_s_axi_arcache[3:0],c0_ddr4_s_axi_arprot[2:0],c0_ddr4_s_axi_arqos[3:0],c0_ddr4_s_axi_arvalid,c0_ddr4_s_axi_arready,c0_ddr4_s_axi_rready,c0_ddr4_s_axi_rid[3:0],c0_ddr4_s_axi_rdata[255:0],c0_ddr4_s_axi_rresp[1:0],c0_ddr4_s_axi_rlast,c0_ddr4_s_axi_rvalid,dbg_bus[511:0]" */;
   input sys_rst;
   input c0_sys_clk_p;
   input c0_sys_clk_n;
@@ -42,10 +42,10 @@ module ddr4_0(sys_rst, c0_sys_clk_p, c0_sys_clk_n,
   output [0:0]c0_ddr4_ck_t;
   output [0:0]c0_ddr4_ck_c;
   output c0_ddr4_reset_n;
-  inout [1:0]c0_ddr4_dm_dbi_n;
-  inout [15:0]c0_ddr4_dq;
-  inout [1:0]c0_ddr4_dqs_c;
-  inout [1:0]c0_ddr4_dqs_t;
+  inout [3:0]c0_ddr4_dm_dbi_n;
+  inout [31:0]c0_ddr4_dq;
+  inout [3:0]c0_ddr4_dqs_c;
+  inout [3:0]c0_ddr4_dqs_t;
   output c0_init_calib_complete;
   output c0_ddr4_ui_clk;
   output c0_ddr4_ui_clk_sync_rst;
@@ -54,7 +54,7 @@ module ddr4_0(sys_rst, c0_sys_clk_p, c0_sys_clk_n,
   output dbg_clk;
   input c0_ddr4_aresetn;
   input [3:0]c0_ddr4_s_axi_awid;
-  input [29:0]c0_ddr4_s_axi_awaddr;
+  input [30:0]c0_ddr4_s_axi_awaddr;
   input [7:0]c0_ddr4_s_axi_awlen;
   input [2:0]c0_ddr4_s_axi_awsize;
   input [1:0]c0_ddr4_s_axi_awburst;
@@ -64,8 +64,8 @@ module ddr4_0(sys_rst, c0_sys_clk_p, c0_sys_clk_n,
   input [3:0]c0_ddr4_s_axi_awqos;
   input c0_ddr4_s_axi_awvalid;
   output c0_ddr4_s_axi_awready;
-  input [127:0]c0_ddr4_s_axi_wdata;
-  input [15:0]c0_ddr4_s_axi_wstrb;
+  input [255:0]c0_ddr4_s_axi_wdata;
+  input [31:0]c0_ddr4_s_axi_wstrb;
   input c0_ddr4_s_axi_wlast;
   input c0_ddr4_s_axi_wvalid;
   output c0_ddr4_s_axi_wready;
@@ -74,7 +74,7 @@ module ddr4_0(sys_rst, c0_sys_clk_p, c0_sys_clk_n,
   output [1:0]c0_ddr4_s_axi_bresp;
   output c0_ddr4_s_axi_bvalid;
   input [3:0]c0_ddr4_s_axi_arid;
-  input [29:0]c0_ddr4_s_axi_araddr;
+  input [30:0]c0_ddr4_s_axi_araddr;
   input [7:0]c0_ddr4_s_axi_arlen;
   input [2:0]c0_ddr4_s_axi_arsize;
   input [1:0]c0_ddr4_s_axi_arburst;
@@ -86,7 +86,7 @@ module ddr4_0(sys_rst, c0_sys_clk_p, c0_sys_clk_n,
   output c0_ddr4_s_axi_arready;
   input c0_ddr4_s_axi_rready;
   output [3:0]c0_ddr4_s_axi_rid;
-  output [127:0]c0_ddr4_s_axi_rdata;
+  output [255:0]c0_ddr4_s_axi_rdata;
   output [1:0]c0_ddr4_s_axi_rresp;
   output c0_ddr4_s_axi_rlast;
   output c0_ddr4_s_axi_rvalid;

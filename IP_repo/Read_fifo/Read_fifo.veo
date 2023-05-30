@@ -58,11 +58,11 @@ Read_fifo your_instance_name (
   .rst(rst),                              // input wire rst
   .wr_clk(wr_clk),                        // input wire wr_clk
   .rd_clk(rd_clk),                        // input wire rd_clk
-  .din(din),                              // input wire [127 : 0] din
+  .din(din),                              // input wire [191 : 0] din
   .wr_en(wr_en),                          // input wire wr_en
   .rd_en(rd_en),                          // input wire rd_en
   .prog_empty_thresh(prog_empty_thresh),  // input wire [9 : 0] prog_empty_thresh
-  .dout(dout),                            // output wire [31 : 0] dout
+  .dout(dout),                            // output wire [47 : 0] dout
   .full(full),                            // output wire full
   .empty(empty),                          // output wire empty
   .valid(valid),                          // output wire valid

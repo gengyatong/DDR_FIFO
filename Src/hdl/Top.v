@@ -116,13 +116,19 @@ wire        SimDataOutValid ;
   .DataOutValid (SimDataOutValid)
 );
 
+wire [47:0] sim_dataOut48bit;
+wire        sim_dataOut48bit_valid;
+
+//将数据的低16位重新填到高位去
+assign sim_dataOut48bit       = { SimDataOut[15:0]  ,SimDataOut[31:0]} ;
+assign sim_dataOut48bit_valid = SimDataOutValid;
 //==============================================================
 
 //                        主要模块例化
 
 //==============================================================
 
-wire [31:0] rd_dataOut;
+wire [47:0] rd_dataOut;
 wire        rd_dataOut_valid;
 
 MIG_WrRd_AXI MIG_WrRd_AXI_inst(
@@ -130,8 +136,8 @@ MIG_WrRd_AXI MIG_WrRd_AXI_inst(
     .user_rst           (user_rst       ), 
 
     .wr_clk             (user_clk_250M  ),          //后续替换为ADC采样时钟
-    .wr_dataIn          (SimDataOut     ),
-    .wr_dataIn_valid    (SimDataOutValid),
+    .wr_dataIn          (sim_dataOut48bit     ),
+    .wr_dataIn_valid    (sim_dataOut48bit_valid),
 
     .start_work         (start_work     ),
     .delay_thread       (delay_thread   ),      
@@ -168,15 +174,15 @@ MIG_WrRd_AXI MIG_WrRd_AXI_inst(
 //==============================================================
 
 wire [31:0] finish_cycle_num;
-wire [4:0]  error;
+wire [5:0]  error;
 wire [31:0] data_differ;
 
 CheckDataCorrectness CheckDataCorrectness_inst(
 
-    .clk            (user_clk_250M      ),
-    .rst            (data_check_rst     ),
-    .wr_data        (SimDataOut         ),
-    .wr_data_valid  (SimDataOutValid    ),   
+    .clk            (user_clk_250M            ),
+    .rst            (data_check_rst           ),
+    .wr_data        (sim_dataOut48bit         ),
+    .wr_data_valid  (sim_dataOut48bit_valid   ),   
     .rd_data        (rd_dataOut         ),
     .rd_data_valid  (rd_dataOut_valid   ),
 
@@ -189,15 +195,15 @@ CheckDataCorrectness CheckDataCorrectness_inst(
 `ifdef ila_InOut_Data_Compare
 ila_InOut_Data_Compare ila_InOut_Data_Compare_inst
 (
-  .clk   (user_clk_250M   ),
+  .clk   (user_clk_250M           ),
 
-  .probe0(rd_dataOut      ),
-  .probe1(rd_dataOut_valid),
-  .probe2(SimDataOut      ),
-  .probe3(SimDataOutValid ),
-  .probe4(finish_cycle_num),  //32bit
-  .probe5(error           ),   //5bit  
-  .probe6(data_differ     )
+  .probe0(rd_dataOut              ),
+  .probe1(rd_dataOut_valid        ),
+  .probe2(sim_dataOut48bit        ),
+  .probe3(sim_dataOut48bit_valid  ),
+  .probe4(finish_cycle_num        ),  //32bit
+  .probe5(error                   ),   //5bit  
+  .probe6(data_differ             )
 );
 
 `endif 

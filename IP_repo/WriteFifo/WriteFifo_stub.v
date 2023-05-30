@@ -1,7 +1,7 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-// Date        : Fri May 26 09:59:13 2023
+// Date        : Tue May 30 13:53:07 2023
 // Host        : a-OptiPlex-7080 running 64-bit Ubuntu 20.04.4 LTS
 // Command     : write_verilog -force -mode synth_stub
 //               /home/a/FPGA_CODE/Learning/AXI_DDR/IP_repo/WriteFifo/WriteFifo_stub.v
@@ -16,14 +16,14 @@
 (* x_core_info = "fifo_generator_v13_2_4,Vivado 2019.1" *)
 module WriteFifo(rst, wr_clk, rd_clk, din, wr_en, rd_en, dout, full, 
   wr_ack, empty, valid, rd_data_count, wr_rst_busy, rd_rst_busy)
-/* synthesis syn_black_box black_box_pad_pin="rst,wr_clk,rd_clk,din[31:0],wr_en,rd_en,dout[127:0],full,wr_ack,empty,valid,rd_data_count[7:0],wr_rst_busy,rd_rst_busy" */;
+/* synthesis syn_black_box black_box_pad_pin="rst,wr_clk,rd_clk,din[47:0],wr_en,rd_en,dout[191:0],full,wr_ack,empty,valid,rd_data_count[7:0],wr_rst_busy,rd_rst_busy" */;
   input rst;
   input wr_clk;
   input rd_clk;
-  input [31:0]din;
+  input [47:0]din;
   input wr_en;
   input rd_en;
-  output [127:0]dout;
+  output [191:0]dout;
   output full;
   output wr_ack;
   output empty;

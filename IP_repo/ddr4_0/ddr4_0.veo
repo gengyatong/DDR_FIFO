@@ -64,10 +64,10 @@ ddr4_0 your_instance_name (
   .c0_ddr4_ba(c0_ddr4_ba),                            // output wire [1 : 0] c0_ddr4_ba
   .c0_ddr4_cke(c0_ddr4_cke),                          // output wire [0 : 0] c0_ddr4_cke
   .c0_ddr4_cs_n(c0_ddr4_cs_n),                        // output wire [0 : 0] c0_ddr4_cs_n
-  .c0_ddr4_dm_dbi_n(c0_ddr4_dm_dbi_n),                // inout wire [1 : 0] c0_ddr4_dm_dbi_n
-  .c0_ddr4_dq(c0_ddr4_dq),                            // inout wire [15 : 0] c0_ddr4_dq
-  .c0_ddr4_dqs_c(c0_ddr4_dqs_c),                      // inout wire [1 : 0] c0_ddr4_dqs_c
-  .c0_ddr4_dqs_t(c0_ddr4_dqs_t),                      // inout wire [1 : 0] c0_ddr4_dqs_t
+  .c0_ddr4_dm_dbi_n(c0_ddr4_dm_dbi_n),                // inout wire [3 : 0] c0_ddr4_dm_dbi_n
+  .c0_ddr4_dq(c0_ddr4_dq),                            // inout wire [31 : 0] c0_ddr4_dq
+  .c0_ddr4_dqs_c(c0_ddr4_dqs_c),                      // inout wire [3 : 0] c0_ddr4_dqs_c
+  .c0_ddr4_dqs_t(c0_ddr4_dqs_t),                      // inout wire [3 : 0] c0_ddr4_dqs_t
   .c0_ddr4_odt(c0_ddr4_odt),                          // output wire [0 : 0] c0_ddr4_odt
   .c0_ddr4_bg(c0_ddr4_bg),                            // output wire [0 : 0] c0_ddr4_bg
   .c0_ddr4_reset_n(c0_ddr4_reset_n),                  // output wire c0_ddr4_reset_n
@@ -78,7 +78,7 @@ ddr4_0 your_instance_name (
   .c0_ddr4_ui_clk_sync_rst(c0_ddr4_ui_clk_sync_rst),  // output wire c0_ddr4_ui_clk_sync_rst
   .c0_ddr4_aresetn(c0_ddr4_aresetn),                  // input wire c0_ddr4_aresetn
   .c0_ddr4_s_axi_awid(c0_ddr4_s_axi_awid),            // input wire [3 : 0] c0_ddr4_s_axi_awid
-  .c0_ddr4_s_axi_awaddr(c0_ddr4_s_axi_awaddr),        // input wire [29 : 0] c0_ddr4_s_axi_awaddr
+  .c0_ddr4_s_axi_awaddr(c0_ddr4_s_axi_awaddr),        // input wire [30 : 0] c0_ddr4_s_axi_awaddr
   .c0_ddr4_s_axi_awlen(c0_ddr4_s_axi_awlen),          // input wire [7 : 0] c0_ddr4_s_axi_awlen
   .c0_ddr4_s_axi_awsize(c0_ddr4_s_axi_awsize),        // input wire [2 : 0] c0_ddr4_s_axi_awsize
   .c0_ddr4_s_axi_awburst(c0_ddr4_s_axi_awburst),      // input wire [1 : 0] c0_ddr4_s_axi_awburst
@@ -88,8 +88,8 @@ ddr4_0 your_instance_name (
   .c0_ddr4_s_axi_awqos(c0_ddr4_s_axi_awqos),          // input wire [3 : 0] c0_ddr4_s_axi_awqos
   .c0_ddr4_s_axi_awvalid(c0_ddr4_s_axi_awvalid),      // input wire c0_ddr4_s_axi_awvalid
   .c0_ddr4_s_axi_awready(c0_ddr4_s_axi_awready),      // output wire c0_ddr4_s_axi_awready
-  .c0_ddr4_s_axi_wdata(c0_ddr4_s_axi_wdata),          // input wire [127 : 0] c0_ddr4_s_axi_wdata
-  .c0_ddr4_s_axi_wstrb(c0_ddr4_s_axi_wstrb),          // input wire [15 : 0] c0_ddr4_s_axi_wstrb
+  .c0_ddr4_s_axi_wdata(c0_ddr4_s_axi_wdata),          // input wire [255 : 0] c0_ddr4_s_axi_wdata
+  .c0_ddr4_s_axi_wstrb(c0_ddr4_s_axi_wstrb),          // input wire [31 : 0] c0_ddr4_s_axi_wstrb
   .c0_ddr4_s_axi_wlast(c0_ddr4_s_axi_wlast),          // input wire c0_ddr4_s_axi_wlast
   .c0_ddr4_s_axi_wvalid(c0_ddr4_s_axi_wvalid),        // input wire c0_ddr4_s_axi_wvalid
   .c0_ddr4_s_axi_wready(c0_ddr4_s_axi_wready),        // output wire c0_ddr4_s_axi_wready
@@ -98,7 +98,7 @@ ddr4_0 your_instance_name (
   .c0_ddr4_s_axi_bresp(c0_ddr4_s_axi_bresp),          // output wire [1 : 0] c0_ddr4_s_axi_bresp
   .c0_ddr4_s_axi_bvalid(c0_ddr4_s_axi_bvalid),        // output wire c0_ddr4_s_axi_bvalid
   .c0_ddr4_s_axi_arid(c0_ddr4_s_axi_arid),            // input wire [3 : 0] c0_ddr4_s_axi_arid
-  .c0_ddr4_s_axi_araddr(c0_ddr4_s_axi_araddr),        // input wire [29 : 0] c0_ddr4_s_axi_araddr
+  .c0_ddr4_s_axi_araddr(c0_ddr4_s_axi_araddr),        // input wire [30 : 0] c0_ddr4_s_axi_araddr
   .c0_ddr4_s_axi_arlen(c0_ddr4_s_axi_arlen),          // input wire [7 : 0] c0_ddr4_s_axi_arlen
   .c0_ddr4_s_axi_arsize(c0_ddr4_s_axi_arsize),        // input wire [2 : 0] c0_ddr4_s_axi_arsize
   .c0_ddr4_s_axi_arburst(c0_ddr4_s_axi_arburst),      // input wire [1 : 0] c0_ddr4_s_axi_arburst
@@ -113,7 +113,7 @@ ddr4_0 your_instance_name (
   .c0_ddr4_s_axi_rvalid(c0_ddr4_s_axi_rvalid),        // output wire c0_ddr4_s_axi_rvalid
   .c0_ddr4_s_axi_rresp(c0_ddr4_s_axi_rresp),          // output wire [1 : 0] c0_ddr4_s_axi_rresp
   .c0_ddr4_s_axi_rid(c0_ddr4_s_axi_rid),              // output wire [3 : 0] c0_ddr4_s_axi_rid
-  .c0_ddr4_s_axi_rdata(c0_ddr4_s_axi_rdata),          // output wire [127 : 0] c0_ddr4_s_axi_rdata
+  .c0_ddr4_s_axi_rdata(c0_ddr4_s_axi_rdata),          // output wire [255 : 0] c0_ddr4_s_axi_rdata
   .addn_ui_clkout1(addn_ui_clkout1),                  // output wire addn_ui_clkout1
   .addn_ui_clkout2(addn_ui_clkout2),                  // output wire addn_ui_clkout2
   .sys_rst(sys_rst)                                  // input wire sys_rst

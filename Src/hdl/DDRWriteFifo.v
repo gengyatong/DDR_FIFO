@@ -30,7 +30,7 @@ module DDRWriteFifo(
     input En,
 
     //输入数据，有效通常一直为1    
-    input [31:0] DataIn,
+    input [47:0] DataIn,
     input        DataInValid,
 
     //读出时钟
@@ -44,15 +44,15 @@ module DDRWriteFifo(
 //Fifo超过一次burst域值的标志
     output reg   FifoOverBurstThread,
 //FIfo数据输出
-    output  [127:0]     DataOut,
+    output  [191:0]     DataOut,
     output              DataOutValid
 
 );
 
 
-wire [7:0]  RdDataCount;
+wire[7:0]   RdDataCount;
 wire        fifoWrEn;
-reg [31:0]  DataInReg;
+reg [47:0]  DataInReg;
 wire        fifofull;
 
 always@(posedge WrClk)

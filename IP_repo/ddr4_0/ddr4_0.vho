@@ -63,10 +63,10 @@ COMPONENT ddr4_0
     c0_ddr4_ba : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
     c0_ddr4_cke : OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
     c0_ddr4_cs_n : OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
-    c0_ddr4_dm_dbi_n : INOUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-    c0_ddr4_dq : INOUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-    c0_ddr4_dqs_c : INOUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-    c0_ddr4_dqs_t : INOUT STD_LOGIC_VECTOR(1 DOWNTO 0);
+    c0_ddr4_dm_dbi_n : INOUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    c0_ddr4_dq : INOUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+    c0_ddr4_dqs_c : INOUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    c0_ddr4_dqs_t : INOUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     c0_ddr4_odt : OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
     c0_ddr4_bg : OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
     c0_ddr4_reset_n : OUT STD_LOGIC;
@@ -77,7 +77,7 @@ COMPONENT ddr4_0
     c0_ddr4_ui_clk_sync_rst : OUT STD_LOGIC;
     c0_ddr4_aresetn : IN STD_LOGIC;
     c0_ddr4_s_axi_awid : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-    c0_ddr4_s_axi_awaddr : IN STD_LOGIC_VECTOR(29 DOWNTO 0);
+    c0_ddr4_s_axi_awaddr : IN STD_LOGIC_VECTOR(30 DOWNTO 0);
     c0_ddr4_s_axi_awlen : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     c0_ddr4_s_axi_awsize : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
     c0_ddr4_s_axi_awburst : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -87,8 +87,8 @@ COMPONENT ddr4_0
     c0_ddr4_s_axi_awqos : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
     c0_ddr4_s_axi_awvalid : IN STD_LOGIC;
     c0_ddr4_s_axi_awready : OUT STD_LOGIC;
-    c0_ddr4_s_axi_wdata : IN STD_LOGIC_VECTOR(127 DOWNTO 0);
-    c0_ddr4_s_axi_wstrb : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    c0_ddr4_s_axi_wdata : IN STD_LOGIC_VECTOR(255 DOWNTO 0);
+    c0_ddr4_s_axi_wstrb : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
     c0_ddr4_s_axi_wlast : IN STD_LOGIC;
     c0_ddr4_s_axi_wvalid : IN STD_LOGIC;
     c0_ddr4_s_axi_wready : OUT STD_LOGIC;
@@ -97,7 +97,7 @@ COMPONENT ddr4_0
     c0_ddr4_s_axi_bresp : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
     c0_ddr4_s_axi_bvalid : OUT STD_LOGIC;
     c0_ddr4_s_axi_arid : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-    c0_ddr4_s_axi_araddr : IN STD_LOGIC_VECTOR(29 DOWNTO 0);
+    c0_ddr4_s_axi_araddr : IN STD_LOGIC_VECTOR(30 DOWNTO 0);
     c0_ddr4_s_axi_arlen : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     c0_ddr4_s_axi_arsize : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
     c0_ddr4_s_axi_arburst : IN STD_LOGIC_VECTOR(1 DOWNTO 0);
@@ -112,7 +112,7 @@ COMPONENT ddr4_0
     c0_ddr4_s_axi_rvalid : OUT STD_LOGIC;
     c0_ddr4_s_axi_rresp : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
     c0_ddr4_s_axi_rid : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
-    c0_ddr4_s_axi_rdata : OUT STD_LOGIC_VECTOR(127 DOWNTO 0);
+    c0_ddr4_s_axi_rdata : OUT STD_LOGIC_VECTOR(255 DOWNTO 0);
     addn_ui_clkout1 : OUT STD_LOGIC;
     addn_ui_clkout2 : OUT STD_LOGIC;
     sys_rst : IN STD_LOGIC

@@ -107,7 +107,7 @@
   PhyIP_ECC = "false",
   PhyIP_CasLatency = 15,
   PhyIP_CasWriteLatency = 11,
-  PhyIP_DataWidth = 16,
+  PhyIP_DataWidth = 32,
   PhyIP_ChipSelect = "true",
   PhyIP_Slot = "Single",
   PhyIP_isCKEShared = "false",
@@ -135,7 +135,7 @@
   PhyIP_Phy_Only = "Complete_Memory_Controller",
   PhyIP_DEBUG_SIGNAL = "Disable",
   PhyIP_CLKOUTPHY_MODE = "VCO_2X",
-  PhyIP_DQ_WIDTH = 16,
+  PhyIP_DQ_WIDTH = 32,
   PhyIP_MEM_DEVICE_WIDTH = 16,
   PhyIP_MIN_PERIOD = 750,
   PhyIP_USE_DM_PORT = "DM_NO_DBI",
@@ -155,8 +155,8 @@
   PhyIP_ODT_WIDTH = 1,
   PhyIP_nCS_PER_RANK = 1,
   PhyIP_DATABITS_PER_STROBE = 8,
-  PhyIP_DQS_WIDTH = 2,
-  PhyIP_DM_WIDTH = 2
+  PhyIP_DQS_WIDTH = 4,
+  PhyIP_DM_WIDTH = 4
 
 *)
 module ddr4_0_ddr4 #
@@ -172,9 +172,9 @@ module ddr4_0_ddr4 #
     parameter integer COL_WIDTH               = 10,
     parameter integer CS_WIDTH                = 1,
     parameter integer ODT_WIDTH               = 1,
-    parameter integer DQ_WIDTH                = 16,
-    parameter integer DQS_WIDTH               = 2,
-    parameter integer DM_WIDTH                = 2,
+    parameter integer DQ_WIDTH                = 32,
+    parameter integer DQS_WIDTH               = 4,
+    parameter integer DM_WIDTH                = 4,
 
     parameter         DRAM_TYPE               = "DDR4",
     parameter         MEM_ADDR_ORDER          = "ROW_COLUMN_BANK",
@@ -233,8 +233,8 @@ module ddr4_0_ddr4 #
     parameter         EXTRA_CMD_DELAY         = 0,
     parameter         nCK_PER_CLK             = 4,
     parameter         APP_ADDR_WIDTH          = 29,
-    parameter         APP_DATA_WIDTH          = 128,
-    parameter         APP_MASK_WIDTH          = 16,
+    parameter         APP_DATA_WIDTH          = 256,
+    parameter         APP_MASK_WIDTH          = 32,
 
     parameter         CLKIN_PERIOD_MMCM        = 5000,
     parameter         CLKFBOUT_MULT_MMCM       = 5,
@@ -251,11 +251,11 @@ module ddr4_0_ddr4 #
     parameter C_S_AXI_ID_WIDTH                = 4,
                                               // Width of all master and slave ID signals.
                                               // # = >= 1.
-    parameter C_S_AXI_ADDR_WIDTH              = 30,
+    parameter C_S_AXI_ADDR_WIDTH              = 31,
                                               // Width of S_AXI_AWADDR, S_AXI_ARADDR, M_AXI_AWADDR and
                                               // M_AXI_ARADDR for all SI/MI slots.
                                               // # = 32.
-    parameter C_S_AXI_DATA_WIDTH              = 128,
+    parameter C_S_AXI_DATA_WIDTH              = 256,
                                               // Width of WDATA and RDATA on SI slot.
                                               // Must be <= APP_DATA_WIDTH.
                                               // # = 32, 64, 128, 256.
@@ -263,7 +263,7 @@ module ddr4_0_ddr4 #
     parameter C_S_AXI_SUPPORTS_NARROW_BURST   = 0,
                                               // Indicates whether to instatiate upsizer
                                               // Range: 0, 1
-    parameter C_RD_WR_ARB_ALGORITHM           = "RD_PRI_REG_STARVE_LIMIT",
+    parameter C_RD_WR_ARB_ALGORITHM           = "RD_PRI_REG",
                                              // Indicates the Arbitration
                                              // Allowed values - "TDM", "ROUND_ROBIN",
                                              // "RD_PRI_REG", "RD_PRI_REG_STARVE_LIMIT"
@@ -327,7 +327,7 @@ module ddr4_0_ddr4 #
     parameter         DDR4_CLAMSHELL       = "OFF",
 
     parameter DDR4_REG_PARITY_ENABLE            = "OFF",
-    parameter integer DBYTES                    = 2,
+    parameter integer DBYTES                    = 4,
     parameter         MR0                       = 13'b0011100110000,
     parameter         DDR4_DB_HIF_RTT_NOM     = 4'b0011, 
     parameter         DDR4_DB_HIF_RTT_WR      = 4'b0000, 

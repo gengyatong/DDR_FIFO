@@ -16,11 +16,11 @@
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BANK_GROUP_WIDTH">1</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BANK_TYPE">HP_IO</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BANK_WIDTH">2</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BUFG_DIV_LOC_1">X0Y3</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BUFG_DIV_LOC_2">X0Y2</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BUFG_LOC_1">X0Y22</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BUFG_LOC_2">X0Y3</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BYTES">4</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BUFG_DIV_LOC_1">X0Y7</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BUFG_DIV_LOC_2">X0Y6</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BUFG_LOC_1">X0Y46</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BUFG_LOC_2">X0Y7</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.BYTES">6</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.C0.ControllerType">DDR4_SDRAM</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.CA_MIRROR">0</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.CENTER_BANK_CLOCK_REGION">0</spirit:configurableElementValue>
@@ -32,20 +32,21 @@
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.CS_WIDTH">1</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DATABITS_PER_STROBE">8</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DATA_BUF_ADDR_WIDTH">5</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DBYTES">2</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DM_WIDTH">2</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DQS_WIDTH">2</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DQ_WIDTH">16</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.EN_OTHER_PN_CLOCK_PARAM">{{2{2&apos;b00}}, {2{2&apos;b01}}} </spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.INIT">{                            15&apos;b110111111111111,                                                                                15&apos;b111111111111111,                                                                                15&apos;b111111111111111,                                                                                15&apos;b111111111111111                                                                                }</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.IOBTYPE">                                                                                  39&apos;b001_001_001_001_001_001_001_001_001_001_001_001_001,                                                                                  39&apos;b001_001_001_001_001_101_101_001_001_001_001_000_000,                                                                                  39&apos;b000_011_011_011_011_111_111_011_011_011_011_001_011,                                                                                  39&apos;b
-000_011_011_011_011_111_111_011_011_011_011_001_011  </spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DBYTES">4</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DM_WIDTH">4</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DQS_WIDTH">4</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.DQ_WIDTH">32</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.EN_OTHER_PN_CLOCK_PARAM">{{2{2&apos;b01}}, {2{2&apos;b00}}, {2{2&apos;b01}}} </spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.INIT">{                            15&apos;b111111111111111,                                                                                15&apos;b111111111111111,                                                                                15&apos;b110111111111111,                                                                                15&apos;b111111111111111,                                                                                15&apos;b111111111111111,                                                   
+                             15&apos;b111111111111111                                                                                }</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.IOBTYPE">                                                                                  39&apos;b000_011_011_011_011_111_111_011_011_011_011_000_011,                                                                                  39&apos;b000_011_011_011_011_111_111_011_011_011_011_000_011,                                                                                  39&apos;b001_001_001_001_001_001_001_001_001_001_001_001_001,                                                                                  39&apos;b
+001_001_001_001_001_101_101_001_001_001_001_000_000,                                                                                  39&apos;b000_011_011_011_011_111_111_011_011_011_011_001_011,                                                                                  39&apos;b000_011_011_011_011_111_111_011_011_011_011_001_011  </spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.IS_CUSTOM">false</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.LR_WIDTH">1</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.MEM_COMP_WIDTH">16</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.MEM_DEVICE_WIDTH">16</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.MEM_TYPE">0</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.MMCM_IDX_BANK">0</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.MMCM_IDX_BANK">1</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.MR0">0</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.MR2">0</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.ODT_WIDTH">1</spirit:configurableElementValue>
@@ -55,17 +56,20 @@
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PBLOCK_RAMB36_LOC_SC">0</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PBLOCK_SLICE_LOC">0</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PBLOCK_SLICE_LOC_SC">0</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PHY_BYTE_ALLOC_PARAM">{{2{2&apos;b00}}, {2{2&apos;b11}}} </spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PING_PONG_CH1_BYTES_MAP">4&apos;b0000</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PHY_BYTE_ALLOC_PARAM">{{2{2&apos;b11}}, {2{2&apos;b00}}, {2{2&apos;b11}}} </spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PING_PONG_CH1_BYTES_MAP">6&apos;b000000</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PING_PONG_PHY">1</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PLL_WIDTH">1</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.PLL_WIDTH">2</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.RANK_WIDTH">1</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.RXTX_BITSLICE_EN">{13&apos;b1111111111111,                                                                                13&apos;b1111101111100,                                                                                13&apos;b0111101111111,                                                                                13&apos;b0111101111111                                                                                }</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.RX_DATA_TYPE">{ 15&apos;b111111_11_11111_11,                                                                                15&apos;b111111_11_11110_00,                                                                                15&apos;b011110_11_11111_01,                                                                                15&apos;b011110_11_11111_01                                                                                }</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.SELF_CALIBRATE">{4{2&apos;b11}} </spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.RXTX_BITSLICE_EN">{13&apos;b0111101111101,                                                                                13&apos;b0111101111101,                                                                                13&apos;b1111111111111,                                                                                13&apos;b1111101111100,                                                                                13&apos;b0111101111111,                                                                                13&apos;b01111
+01111111                                                                                }</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.RX_DATA_TYPE">{ 15&apos;b011110_11_11110_01,                                                                                15&apos;b011110_11_11110_01,                                                                                15&apos;b111111_11_11111_11,                                                                                15&apos;b111111_11_11110_00,                                                                                15&apos;b011110_11_11111_01,                                                               
+                 15&apos;b011110_11_11111_01                                                                                }</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.SELF_CALIBRATE">{6{2&apos;b11}} </spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.SYSCLK_CENTER_INFO">TRUE</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.Slot">1</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.TX_OUTPUT_PHASE_90">{ 13&apos;b1111111111111,                                                                                13&apos;b1111111111100,                                                                                13&apos;b0000011000010,                                                                                13&apos;b0000011000010                                                                                }</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.TX_OUTPUT_PHASE_90">{ 13&apos;b0000011000000,                                                                                13&apos;b0000011000000,                                                                                13&apos;b1111111111111,                                                                                13&apos;b1111111111100,                                                                                13&apos;b0000011000010,                                                                                13&apos;b0000
+011000010                                                                                }</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.USE_CS_PORT">1</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.USE_DM_PORT">1</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="MODELPARAM_VALUE.nCK_PER_CLK">4</spirit:configurableElementValue>
@@ -85,7 +89,7 @@
         <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.C0.DDR4_Clamshell">false</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.C0.DDR4_DIVCLK_DIVIDE">1</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.C0.DDR4_DataMask">DM_NO_DBI</spirit:configurableElementValue>
-        <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.C0.DDR4_DataWidth">16</spirit:configurableElementValue>
+        <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.C0.DDR4_DataWidth">32</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.C0.DDR4_Ecc">false</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.C0.DDR4_Enable_LVAUX">false</spirit:configurableElementValue>
         <spirit:configurableElementValue spirit:referenceId="PARAM_VALUE.C0.DDR4_HR_MIN_FREQ">0</spirit:configurableElementValue>

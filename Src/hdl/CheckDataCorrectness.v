@@ -24,13 +24,13 @@ module CheckDataCorrectness(
 
     input               clk,
     input               rst,
-    input [31:0]        wr_data,
+    input [47:0]        wr_data,
     input               wr_data_valid,   
-    input [31:0]        rd_data,
+    input [47:0]        rd_data,
     input               rd_data_valid,
 
     output reg [31 :0]      finish_cycle_num,
-    output reg [4 : 0]      error      ,     
+    output reg [5 : 0]      error      ,     
     output reg [31 : 0]      data_differ
 
 );
@@ -40,7 +40,7 @@ reg[31:0]  data_differ_reg;
 always@(posedge clk)
 begin
     if((rd_data_valid)&&(wr_data_valid))
-        data_differ <= wr_data - rd_data  ;
+        data_differ <= wr_data[31:0] - rd_data[31:0]  ;
     else
         data_differ <= data_differ;
 end
@@ -114,7 +114,7 @@ always@(posedge clk)
 begin
     if(rst)
         error[3] <= 1'b0;
-    else if  ((rd_data - rd_data_reg) != 'd1)
+    else if  ((rd_data[31:0] - rd_data_reg[31:0]) != 'd1)
         error[3] <= 1'b1;
     else
         error[3] <= error[3];
@@ -125,19 +125,21 @@ always@(posedge clk)
 begin
     if(rst)
         error[4] <= 1'b0;
-    else if  ((wr_data - wr_data_reg) != 'd1)
+    else if  ((wr_data[31:0] - wr_data_reg[31:0]) != 'd1)
         error[4] <= 1'b1;
     else
         error[4] <= error[4];
         
 end
     
-
-
-
-
-
-
-
+always@(posedge clk)
+begin
+    if(rst)
+        error[5] <= 1'b0;
+    else if ((wr_data[47:32]!=wr_data[15:0])||(rd_data[47:32]!=rd_data[15:0]))
+        error[5] <= 1'b1;
+    else
+        error[5] <= error[5];
+end
 
 endmodule

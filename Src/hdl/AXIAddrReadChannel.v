@@ -46,7 +46,7 @@ endfunction
 	
 localparam integer C_TRANSACTIONS_NUM = clogb2(`C_M_AXI_BURST_LEN-1);
 
-wire [C_TRANSACTIONS_NUM+4 : 0] 	burst_size_bytes;
+wire [C_TRANSACTIONS_NUM+5 : 0] 	burst_size_bytes;
 assign burst_size_bytes	= `C_M_AXI_BURST_LEN * `C_M_AXI_DATA_WIDTH/8;
 
 //----------------------------

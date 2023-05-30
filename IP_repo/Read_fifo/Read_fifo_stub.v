@@ -1,7 +1,7 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.1 (lin64) Build 2552052 Fri May 24 14:47:09 MDT 2019
-// Date        : Fri May 26 10:03:14 2023
+// Date        : Tue May 30 14:01:09 2023
 // Host        : a-OptiPlex-7080 running 64-bit Ubuntu 20.04.4 LTS
 // Command     : write_verilog -force -mode synth_stub
 //               /home/a/FPGA_CODE/Learning/AXI_DDR/IP_repo/Read_fifo/Read_fifo_stub.v
@@ -16,15 +16,15 @@
 (* x_core_info = "fifo_generator_v13_2_4,Vivado 2019.1" *)
 module Read_fifo(rst, wr_clk, rd_clk, din, wr_en, rd_en, 
   prog_empty_thresh, dout, full, empty, valid, rd_data_count, prog_empty, wr_rst_busy, rd_rst_busy)
-/* synthesis syn_black_box black_box_pad_pin="rst,wr_clk,rd_clk,din[127:0],wr_en,rd_en,prog_empty_thresh[9:0],dout[31:0],full,empty,valid,rd_data_count[9:0],prog_empty,wr_rst_busy,rd_rst_busy" */;
+/* synthesis syn_black_box black_box_pad_pin="rst,wr_clk,rd_clk,din[191:0],wr_en,rd_en,prog_empty_thresh[9:0],dout[47:0],full,empty,valid,rd_data_count[9:0],prog_empty,wr_rst_busy,rd_rst_busy" */;
   input rst;
   input wr_clk;
   input rd_clk;
-  input [127:0]din;
+  input [191:0]din;
   input wr_en;
   input rd_en;
   input [9:0]prog_empty_thresh;
-  output [31:0]dout;
+  output [47:0]dout;
   output full;
   output empty;
   output valid;
