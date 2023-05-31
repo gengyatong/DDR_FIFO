@@ -69,7 +69,7 @@ begin
         begin
             finish_cycle_num <= 'd0;
         end
-    else if(rd_data == 32'hffffffff)
+    else if(rd_data[31:0] == 32'hffffffff)
         begin
             finish_cycle_num <= finish_cycle_num + 1'b1;
         end
